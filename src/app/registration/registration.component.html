@@ -1,1 +1,19 @@
-<p>registration works!</p>
+<section><div class="container">
+  <form [formGroup]="registerForm" (submit)="submitForm()">
+    <div class="field">
+      <label class="label">Nom</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="John Doe" formControlName="username">
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Mot de passe</label>
+      <div class="control">
+        <input class="input" type="password" placeholder="Votre mot de passe..." formControlName="password">
+      </div>
+    </div>
+    <div class="control">
+      <button type="submit" class="button is-link">Submit</button>
+    </div>
+    </form>
+  </div></section>

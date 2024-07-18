@@ -2,11 +2,25 @@
 
 const express = require('express');
 const app = express();
+app.use(express.json());
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10; 
+
 
 const port = process.env.PORT || 3000;
 
+// entêtes CORS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200'); 
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); 
+  next();
+});
+
+
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server express is running on port ${port}`);
 });
 
 /* CONNEXION À LA BASE DE DONNÉES POSTGRESQL */
@@ -14,10 +28,10 @@ app.listen(port, () => {
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  user: 'your_username',
-  host: 'localhost',
-  database: 'my_database',
-  password: 'your_password',
+  user: 'mad',
+  host: '10.0.1.21',
+  database: 'angular',
+  password: 'mad8888',
   port: 5432,
 });
 
@@ -32,8 +46,9 @@ pool.connect((err) => {
 
 /* API ENDPOINTS */
 
-app.get('/api/items', (req, res) => {
-    pool.query('SELECT * FROM users', (err, result) => {
+app.get('/api/users', (req, res) => {
+  console.log("GET /api/items");
+    pool.query('SELECT * FROM public.users', (err, result) => {
       if (err) {
         console.error('Error executing query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -43,21 +58,35 @@ app.get('/api/items', (req, res) => {
     });
   });
   
-  app.post('/api/items', (req, res) => {
-    const { name, description } = req.body;
+  app.post('/api/register', (req, res) => {
+    const name = req.body.username;
+    let mdp = req.body.password;
   
-    pool.query(
-      'INSERT INTO users (nom, mdp, isSupport) VALUES ($1, $2) RETURNING *',
-      [name, description],
-      (err, result) => {
-        if (err) {
-          console.error('Error executing query:', err);
-          res.status(500).json({ error: 'Internal Server Error' });
-        } else {
-          res.json(result.rows[0]);
-        }
-      }
-    );
+    if (!name || !mdp) {
+      return res.status(400).json({ error: 'Nom et mdp requis.' });
+    }
+  
+    bcrypt
+      .hash(mdp, saltRounds)
+      .then(hash => {
+        // on insère ici après le hachage du mot de passe
+        pool.query(
+          'INSERT INTO public.users (nom, mdp, isSupport) VALUES ($1, $2, $3) RETURNING *',
+          [name, hash, false], 
+          (err, result) => {
+            if (err) {
+              console.error('Error executing query:', err);
+              return res.status(500).json({ error: 'Internal Server Error' });
+            } else {
+              return res.json(result.rows[0]);
+            }
+          }
+        );
+      })
+      .catch(err => {
+        console.error(err.message);
+        return res.status(500).json({ error: 'Erreur lors du hachage du mot de passe' });
+      });
   });
 
   /* CRUD IMPLEMENTATIONS */
