@@ -25,8 +25,8 @@ export class LoginComponent{
     this.loginForm.markAllAsTouched();
     if(this.loginForm.valid){
       this.userService.loginUser(this.loginForm.value.username, this.loginForm.value.password).subscribe({
-        next: () => {
-          this.toastr.success('Connexion réussie.','Succès',{closeButton:true, positionClass: 'toast-top-right'});
+        next: (res) => {
+          this.toastr.success(res.message,'Succès',{closeButton:true, positionClass: 'toast-top-right'});
         },
         error: (error) => {
           console.error('Erreur lors de l\'enregistrement: ', error)
