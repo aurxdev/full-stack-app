@@ -25,4 +25,8 @@ export class UserService {
       return this.http.post<any>(`${this.url}register`, { username: username, password: password });
     }
 
+    loginUser(username: string | null | undefined, password: string | null | undefined): Observable<any>{
+      return this.http.post<any>(`${this.url}login`, { username: username, password: password })
+    }
+
 }

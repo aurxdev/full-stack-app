@@ -89,6 +89,45 @@ app.get('/api/users', (req, res) => {
       });
   });
 
+  app.post('/api/login', (req, res) => {
+    const name = req.body.username;
+    let mdp = req.body.password;
+  
+    if (!name || !mdp) {
+      return res.status(400).json({ error: 'Nom et mdp requis.' });
+    }
+    pool.query(
+      'SELECT * FROM public.users WHERE nom = $1',
+      [name], (err,result) => {
+        if(err){
+          console.error('Error executing query:', err);
+          return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        if(result.rows.length === 0){
+          return res.status(404).json({ error: 'Utilisateur non trouvé.' });
+        }
+
+        bcrypt.compare(mdp, result.rows[0].mdp, (err,isMatch) => {
+          if(err){
+            console.error('Error executing query:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+          }
+          if(isMatch){
+            return res.json({success: true, message:"Authentification réussie!"});
+          }else{
+            return res.status(404).json({ error: 'Mot de passe ne correspond pas.' });
+          }
+
+        });
+
+      }
+    )
+
+
+    
+
+  });
+
   /* CRUD IMPLEMENTATIONS */
 
   app.put('/api/items/:id', (req, res) => {
