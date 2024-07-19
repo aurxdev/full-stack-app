@@ -21,7 +21,7 @@
 
       </div>
       <div class="navbar-end">
-        <a *ngIf="!authService.isSupport()" class="navbar-item" [routerLink]="['/create-ticket']" routerLinkActive="is-active">Créer un ticket</a>
+        <a *ngIf="authService.isLoggedIn()" class="navbar-item" [routerLink]="['/create-ticket']" routerLinkActive="is-active">Créer un ticket</a>
 
         <a *ngIf="authService.isSupport()" class="navbar-item" [routerLink]="['/dashboard']" routerLinkActive="is-active">Dashboard</a>
 

@@ -1,21 +1,19 @@
 
     <div *ngIf="this.authService.isLoggedIn(); else notLoggedIn">
         <h1>Bienvenue {{ user.username }}!</h1>
-
+        <h2>Mes tickets</h2>
+        <hr/>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr *ngFor="let item of items"><td>{{ item.nom }}</td></tr>
+            </tfoot>
+        </table>
     </div>
     <ng-template #notLoggedIn>
         <h1>Vous n'êtes pas connecté.</h1>
     </ng-template>
-    <hr/>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom</th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr *ngFor="let item of items"><td>{{ item.nom }}</td></tr>
-        </tfoot>
-    </table>
-
-
