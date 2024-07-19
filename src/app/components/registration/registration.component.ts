@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
-
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -26,11 +26,11 @@ export class RegistrationComponent {
   private router = inject(Router);
 
 
-  constructor(private toastr: ToastrService) { }
+  constructor(private toastr: ToastrService, private auth: AuthService) { }
 
   submitForm(): void {
     this.registerForm.markAllAsTouched();
-    if(this.registerForm.valid){
+    if(this.registerForm.valid && !this.auth.isLoggedIn()){
       this.userService.registerUser(this.registerForm.value.username, this.registerForm.value.password).subscribe({
         next: () =>{
           this.router.navigate(['/login']);
@@ -41,8 +41,9 @@ export class RegistrationComponent {
           this.toastr.error('Erreur lors de l\'enregistrement');
         }
       });
-
-
+    }
+    else{
+      this.toastr.error('Veuillez remplir correctement le formulaire.');
     }
   }
 }

@@ -6,11 +6,17 @@
       <div class="control">
         <input class="input" type="text" placeholder="John Doe" formControlName="username">
       </div>
+      <div *ngIf="registerForm.controls.username.touched && registerForm.controls.username.errors?.['required']" class="help is-danger">
+        Le nom est requis.
+      </div>
     </div>
     <div class="field">
       <label class="label">Mot de passe</label>
       <div class="control">
         <input class="input" type="password" placeholder="Votre mot de passe..." formControlName="password">
+      </div>
+      <div *ngIf="registerForm.controls.password.touched && registerForm.controls.password.errors?.['required']" class="help is-danger">
+        Le mot de passe est requis.
       </div>
     </div>
     <div class="control">

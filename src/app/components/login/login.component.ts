@@ -30,7 +30,7 @@ export class LoginComponent{
       this.userService.loginUser(this.loginForm.value.username, this.loginForm.value.password).subscribe({
         next: (res) => {
           this.auth.login(res);
-          this.toastr.success(res.message,'Succès',{closeButton:true, positionClass: 'toast-bottom-full-width'});
+          this.toastr.success(res.message,'Succès',{closeButton:true, positionClass: 'toast-top-right'});
           this.router.navigate(['/']);
         },
         error: (error) => {
