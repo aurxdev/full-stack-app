@@ -13,15 +13,20 @@
   
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item" [routerLink]="['/']">
+        <a class="navbar-item" [routerLink]="['/']" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:true}">
           Accueil
         </a>
   
-        <a class="navbar-item" [routerLink]="['/registration']">
+
+      </div>
+      <div class="navbar-end">
+        <a *ngIf="!authService.isLoggedIn()" class="navbar-item" [routerLink]="['/registration']" routerLinkActive="is-active">
           Inscription
         </a>
-        <a class="navbar-item" [routerLink]="['/login']">Connexion</a>
+        <a *ngIf="!authService.isLoggedIn()" class="navbar-item" [routerLink]="['/login']" routerLinkActive="is-active">Connexion</a>
 
+        <a *ngIf="authService.isLoggedIn()" class="navbar-item" [routerLink]="['/profile']" routerLinkActive="is-active">Profil</a>
+        <a *ngIf="authService.isLoggedIn()" class="navbar-item" (click)="authService.logout()">Déconnexion</a>
       </div>
     </div>
   </nav>
