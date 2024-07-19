@@ -45,7 +45,6 @@ pool.connect((err) => {
 /* API ENDPOINTS */
 
 app.get('/api/users', (req, res) => {
-  console.log("GET /api/items");
     pool.query('SELECT * FROM public.users', (err, result) => {
       if (err) {
         console.error('Error executing query:', err);
@@ -55,40 +54,38 @@ app.get('/api/users', (req, res) => {
       }
     });
   });
-  
-  /*
-  app.post('/api/register', (req, res) => {
-    const name = req.body.username;
-    let mdp = req.body.password;
-  
-    if (!name || !mdp) {
-      return res.status(400).json({ error: 'Nom et mdp requis.' });
-    }
-  
-    bcrypt
-      .hash(mdp, saltRounds)
-      .then(hash => {
-        // on insère ici après le hachage du mot de passe
-        pool.query(
-          'INSERT INTO public.users (nom, mdp, isSupport) VALUES ($1, $2, $3) RETURNING *',
-          [name, hash, false], 
-          (err, result) => {
-            if (err) {
-              console.error('Error executing query:', err);
-              return res.status(500).json({ error: 'Internal Server Error' });
-            } else {
-              return res.json(result.rows[0]);
-            }
-          }
-        );
-      })
-      .catch(err => {
-        console.error(err.message);
-        return res.status(500).json({ error: 'Erreur lors du hachage du mot de passe' });
-      });
-  });
-  */
 
+  app.get('/api/users/:id/isSupport', (req, res) => {
+    const { id } = req.params;
+  
+    pool.query('SELECT isSupport FROM public.users WHERE id = $1', [id], (err, result) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else if (result.rows.length === 0) {
+        res.status(404).json({ error: 'Utilisateur non trouvé.' });
+      } else {
+        res.json(result.rows[0]);
+      }
+    });
+  });
+
+  app.get('/api/users/:id', (req, res) => {
+
+    const id  = req.params.id;
+  
+    pool.query('SELECT * FROM public.users WHERE id = $1', [id], (err, result) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else if (result.rows.length === 0) {
+        res.status(404).json({ error: 'Utilisateur non trouvé.' });
+      } else {
+        res.json(result.rows[0]);
+      }
+    });
+  });
+  
   app.post('/api/register', async (req, res) => {
     const name = req.body.username;
     let mdp = req.body.password;
@@ -126,9 +123,10 @@ app.get('/api/users', (req, res) => {
       }
   
       const user = result.rows[0];
+      console.log(user);
       const isMatch = await comparePassword(mdp, user.mdp);
       if (isMatch) {
-        const token = generateJwtToken({ id: user.id, username: user.nom }); 
+        const token = generateJwtToken({ id: user.id, username: user.nom, support: user.issupport }); 
         return res.json({ success: true, message: "Authentification réussie!", token: token });
       } else {
         return res.status(401).json({ error: 'Mot de passe ne correspond pas.' });

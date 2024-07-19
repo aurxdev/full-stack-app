@@ -25,12 +25,16 @@
         </a>
         <a *ngIf="!authService.isLoggedIn()" class="navbar-item" [routerLink]="['/login']" routerLinkActive="is-active">Connexion</a>
 
-        <a *ngIf="authService.isLoggedIn()" class="navbar-item" [routerLink]="['/profile']" routerLinkActive="is-active">Profil</a>
-        <a *ngIf="authService.isLoggedIn()" class="navbar-item" (click)="authService.logout()">Déconnexion</a>
+        <a *ngIf="authService.isLoggedIn()" class="navbar-item" [routerLink]="['/profil']" routerLinkActive="is-active">Profil</a>
+        <a *ngIf="authService.isLoggedIn()" class="navbar-item" (click)="this.logout()">Déconnexion</a>
       </div>
     </div>
   </nav>
 </header>
 <main>
-  <router-outlet></router-outlet>
+  <section>
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </section>
 </main>

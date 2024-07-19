@@ -5,11 +5,12 @@ import { UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone:true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -29,7 +30,7 @@ export class LoginComponent{
       this.userService.loginUser(this.loginForm.value.username, this.loginForm.value.password).subscribe({
         next: (res) => {
           this.auth.login(res);
-          this.toastr.success(res.message,'Succès',{closeButton:true, positionClass: 'toast-top-right'});
+          this.toastr.success(res.message,'Succès',{closeButton:true, positionClass: 'toast-bottom-full-width'});
           this.router.navigate(['/']);
         },
         error: (error) => {
@@ -37,6 +38,8 @@ export class LoginComponent{
           this.toastr.error(error.error.error);
         }
         })
+    } else{
+      this.toastr.error('Veuillez remplir correctement le formulaire.');
     }
   }
 }

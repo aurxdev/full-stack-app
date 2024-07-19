@@ -4,6 +4,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { AuthGuard } from './shared/auth.guard';
 import { LoggedGuard } from './shared/logged.guard';
+import { ProfileComponent } from './components/shared/profile/profile.component';
 
 export const routes: Routes = [
     {
@@ -23,4 +24,10 @@ export const routes: Routes = [
         title: 'Registration',
         canActivate: [LoggedGuard],
     },
+    {
+        path:'profil',
+        component: ProfileComponent,
+        title: 'Profile',
+        canActivate: [AuthGuard],
+    }
 ];

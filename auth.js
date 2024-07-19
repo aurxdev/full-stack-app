@@ -9,6 +9,7 @@ const generateJwtToken = (user) => {
   const payload = {
     id: user.id,
     username: user.username,
+    support: user.support,
   };
 
   return jwt.sign(payload, secretKey, { expiresIn: '1h' });
