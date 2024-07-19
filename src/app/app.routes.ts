@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
-import { ListeComponent } from './components/liste/liste.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegistrationComponent } from './components/registration/registration.component';
+import { ListeComponent } from './components/shared/liste/liste.component';
+import { LoginComponent } from './components/form/login/login.component';
+import { RegistrationComponent } from './components/form/registration/registration.component';
 import { AuthGuard } from './shared/auth.guard';
 import { LoggedGuard } from './shared/logged.guard';
 import { ProfileComponent } from './components/shared/profile/profile.component';
+import { FormTicketComponent } from './components/form/form-ticket/form-ticket.component';
 
 export const routes: Routes = [
     {
@@ -21,13 +22,19 @@ export const routes: Routes = [
     {
         path:'registration',
         component: RegistrationComponent,
-        title: 'Registration',
+        title: 'Enregistrement',
         canActivate: [LoggedGuard],
     },
     {
         path:'profil',
         component: ProfileComponent,
-        title: 'Profile',
+        title: 'Profil',
+        canActivate: [AuthGuard],
+    },
+    {
+        path:'create-ticket',
+        component: FormTicketComponent,
+        title: 'Créer un ticket',
         canActivate: [AuthGuard],
     }
 ];

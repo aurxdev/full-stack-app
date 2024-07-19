@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -38,7 +38,7 @@ export class RegistrationComponent {
         },
         error: (error) => {
           console.error('Erreur lors de l\'enregistrement: ', error)
-          this.toastr.error('Erreur lors de l\'enregistrement');
+          this.toastr.error(error.error.error);
         }
       });
     }

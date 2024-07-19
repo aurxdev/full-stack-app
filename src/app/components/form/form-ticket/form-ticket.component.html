@@ -1,0 +1,46 @@
+<form [formGroup]="ticketForm" (submit)="submitForm()">
+    <h1>Création d'un ticket</h1>
+    <div class="field">
+      <label class="label" for="nom">Nom</label>
+      <div class="control">
+        <input class="input" type="text" id="nom" name="nom" placeholder="Nom du ticket" formControlName="nom">
+      </div>
+      <div *ngIf="ticketForm.controls.nom.touched && ticketForm.controls.nom.errors?.['required']" class="help is-danger">
+        Le nom est requis.
+      </div>
+    </div>
+  
+    <div class="field">
+      <label class="label" for="categorie">Catégorie</label>
+      <div class="control">
+        <div class="select">
+          <select id="categorie" name="categorie" formControlName="categorie">
+            <option value="">Sélectionnez une catégorie</option>
+            <option value="materiel">Matériel</option>
+            <option value="logiciel">Logiciel</option>
+            <option value="telephonie">Téléphonie</option>
+            <option value="compte">Compte utilisateur</option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="ticketForm.controls.categorie.touched && ticketForm.controls.categorie.errors?.['required']" class="help is-danger">
+        La catégorie est requise.
+      </div>
+    </div>
+  
+    <div class="field">
+      <label class="label" for="description">Description</label>
+      <div class="control">
+        <textarea class="textarea" id="description" name="description" formControlName="description" placeholder="Description du ticket"></textarea>
+      </div>
+        <div *ngIf="ticketForm.controls.description.touched && ticketForm.controls.description.errors?.['required']" class="help is-danger">
+            La description est requise.
+        </div>
+    </div>
+  
+    <div class="field">
+      <div class="control">
+        <button type="submit" class="button is-link">Soumettre</button>
+      </div>
+    </div>
+  </form>

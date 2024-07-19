@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import {jwtDecode} from 'jwt-decode';
+import {jwtDecode, JwtPayload} from 'jwt-decode';
+
+
+interface Token extends JwtPayload{
+  id: string;
+  nom: string;
+  support: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +34,12 @@ export class AuthService {
     return this.getToken() !== null;
   }
 
-  getDecodedToken() {
+  isSupport(): boolean{
+    const token = this.getDecodedToken();
+    return token ? token.support : false
+  }
+
+  getDecodedToken() : Token | null{
     const token = localStorage.getItem('accessToken');
     return token ? jwtDecode(token) : null;
   }

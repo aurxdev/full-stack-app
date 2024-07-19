@@ -11,15 +11,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent {
-
   informations : any;
   user:any;
   
-
   constructor(userService: UserService, auth : AuthGuard) { 
     this.informations = {};
     this.user = auth.authService.getDecodedToken();
-
     userService.getUserById(this.user.id).subscribe((data) => {
       this.informations = data
       });
