@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -32,12 +32,12 @@ export class UserService {
 
     /* CRUD OPERATIONS */
 
-    registerUser(username : string | null | undefined, password: string | null | undefined): Observable<any>{
-      return this.http.post<any>(`${this.url}/register`, { username: username, password: password });
+    registerUser(user : User): Observable<any>{
+      return this.http.post<any>(`${this.url}/register`, { username: user.nom, password: user.mdp });
     }
 
-    updateUser(id: string, username: string, password: string): Observable<any>{
-      return this.http.put<any>(`${this.url}/users/${id}`, { username: username, password: password });
+    updateUser(id:string, user : User): Observable<any>{
+      return this.http.put<any>(`${this.url}/users/${id}`, { username: user.nom, password: user.mdp });
     }
 
     deleteUser(id: string): Observable<any>{

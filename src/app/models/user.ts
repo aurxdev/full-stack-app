@@ -1,6 +1,6 @@
 export interface User {
     _id?: string;
-    name: string;
-    password: string;
-    isSupport: boolean;
+    nom: string;
+    mdp: string;
+    support: boolean;
 }

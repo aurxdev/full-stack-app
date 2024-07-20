@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 
-
+// j'étends l'interface pour pouvoir faire des fonctions qui retournent juste un champ de l'interface
 interface Token extends JwtPayload{
   id: string;
   nom: string;
