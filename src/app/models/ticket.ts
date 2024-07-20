@@ -6,11 +6,11 @@ export enum TicketEtat{
 
 export interface Ticket{
     _id?: string;
-    nom: string;
-    categorie: string;
-    description: string;
-    date: Date | string;
+    nom: string | null | undefined;
+    categorie: string | null | undefined;
+    description: string | null | undefined;
+    date?: Date | string;
     etat: TicketEtat;
-    idUser: string;
-    idSupport: string;
+    idUser: string | null;
+    idSupport?: string | null;
 }

@@ -12,12 +12,12 @@ export class UserService {
 
   constructor(private http: HttpClient){}
 
-    getAllUsers(): Observable<any[]>{
-        return this.http.get<any[]>(`${this.url}/users`);
+    getAllUsers(): Observable<User[]>{
+        return this.http.get<User[]>(`${this.url}/users`);
     }
 
-    getUserById(id: string): Observable<any>{
-      return this.http.get<any>(`${this.url}/users/${id}`);
+    getUserById(id: string): Observable<User>{
+      return this.http.get<User>(`${this.url}/users/${id}`);
     }
 
     isSupport(id: string): Observable<any>{
@@ -25,8 +25,8 @@ export class UserService {
     }
 
 
-    loginUser(username: string | null | undefined, password: string | null | undefined): Observable<any>{
-      return this.http.post<any>(`${this.url}/login`, { username: username, password: password })
+    loginUser(user : User): Observable<any>{
+      return this.http.post<any>(`${this.url}/login`, { username: user.nom, password: user.mdp })
     }
 
 

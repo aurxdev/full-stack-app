@@ -44,8 +44,9 @@ export class AuthService {
     return token ? jwtDecode(token) : null;
   }
 
-  getId(){
-    
+  getUserId(){
+    const token = this.getDecodedToken();
+    return token ? token.id : null;
   }
 
 }

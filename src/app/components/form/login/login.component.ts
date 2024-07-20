@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +28,11 @@ export class LoginComponent{
   submitForm(): void {
     this.loginForm.markAllAsTouched();
     if(this.loginForm.valid && !this.auth.isLoggedIn()){
-      this.userService.loginUser(this.loginForm.value.username, this.loginForm.value.password).subscribe({
+      const user: User = {
+        nom: this.loginForm.value.username,
+        mdp: this.loginForm.value.password,
+      }
+      this.userService.loginUser(user).subscribe({
         next: (res) => {
           this.auth.login(res);
           this.toastr.success(res.message,'Succès',{closeButton:true, positionClass: 'toast-top-right'});

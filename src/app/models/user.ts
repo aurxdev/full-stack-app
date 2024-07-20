@@ -1,6 +1,6 @@
 export interface User {
     _id?: string;
-    nom: string;
-    mdp: string;
-    support: boolean;
+    nom: string | null | undefined;
+    mdp: string | null | undefined;
+    support?: boolean;
 }

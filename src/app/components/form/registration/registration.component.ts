@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../services/auth.service';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-registration',
@@ -31,7 +32,11 @@ export class RegistrationComponent {
   submitForm(): void {
     this.registerForm.markAllAsTouched();
     if(this.registerForm.valid && !this.auth.isLoggedIn()){
-      this.userService.registerUser(this.registerForm.value.username, this.registerForm.value.password).subscribe({
+      const user: User = {
+        nom: this.registerForm.value.username,
+        mdp: this.registerForm.value.password,
+      }
+      this.userService.registerUser(user).subscribe({
         next: () =>{
           this.router.navigate(['/login']);
           this.toastr.success('Votre compte est bien enregistré.','Succès',{closeButton:true, positionClass: 'toast-top-right'});
