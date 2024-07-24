@@ -1,4 +1,4 @@
-<h1>{{ this.informations.nom }}</h1>
+<h1><span class="has-text-primary">#{{ this.informations.id }}</span> | {{ this.informations.nom }}</h1>
 <hr/>
 <h3 *ngIf="!this.informations.issupport else supportBlock">Client</h3>
 <ng-template #supportBlock>Support</ng-template>

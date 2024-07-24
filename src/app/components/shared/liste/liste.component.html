@@ -1,7 +1,7 @@
 
     <div *ngIf="this.authService.isLoggedIn(); else notLoggedIn">
-        <h1>Bienvenue {{ user.username }}!</h1>
-        <h2>Mes tickets</h2>
+        <h1>Bon retour parmi nous, <span class="has-text-primary">{{ user.username }}</span> !</h1>
+        <h2>Votre espace de suivi des tickets</h2>
         <hr/>
         <div *ngIf="!this.noTicket; else noTicketMessage">
             <table class="table is-fullwidth">
@@ -12,7 +12,7 @@
                         <th>Description</th>
                         <th>Date de création</th>
                         <th>Etat</th>
-                        <th *ngIf="this.authService.isSupport()">Action</th>
+                        <th *ngIf="this.authService.isSupport()"><p>Action</p></th>
                     </tr>
                 </thead>
                 <tfoot>

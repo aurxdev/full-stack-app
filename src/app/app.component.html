@@ -23,7 +23,7 @@
       <div class="navbar-end">
       <div class="navbar-item">
           <div class="buttons">
-            <a *ngIf="authService.isLoggedIn()" class="button is-primary" [routerLink]="['/create-ticket']" routerLinkActive="is-active">Créer un ticket</a>
+            <a *ngIf="authService.isLoggedIn() && !authService.isSupport()" class="button is-primary" [routerLink]="['/create-ticket']" routerLinkActive="is-active">Créer un ticket</a>
             <!--
             <a *ngIf="authService.isSupport()" class="button is-primary" [routerLink]="['/dashboard']" routerLinkActive="is-active">Dashboard</a>-->
           </div>
