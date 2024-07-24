@@ -24,13 +24,17 @@
       <div class="navbar-item">
           <div class="buttons">
             <a *ngIf="authService.isLoggedIn()" class="button is-primary" [routerLink]="['/create-ticket']" routerLinkActive="is-active">Créer un ticket</a>
-            <a *ngIf="authService.isSupport()" class="button is-primary" [routerLink]="['/dashboard']" routerLinkActive="is-active">Dashboard</a>
+            <!--
+            <a *ngIf="authService.isSupport()" class="button is-primary" [routerLink]="['/dashboard']" routerLinkActive="is-active">Dashboard</a>-->
           </div>
         </div>
-        <a *ngIf="!authService.isLoggedIn()" class="navbar-item" [routerLink]="['/registration']" routerLinkActive="is-active">
-          Inscription
-        </a>
         <a *ngIf="!authService.isLoggedIn()" class="navbar-item" [routerLink]="['/login']" routerLinkActive="is-active">Connexion</a>
+        <div class="navbar-item">
+          <a *ngIf="!authService.isLoggedIn()" class="button is-primary" [routerLink]="['/registration']" routerLinkActive="is-active">
+            Inscription
+          </a>
+        </div>
+
 
         <a *ngIf="authService.isLoggedIn()" class="navbar-item" [routerLink]="['/profil']" routerLinkActive="is-active">Profil</a>
         <a *ngIf="authService.isLoggedIn()" class="navbar-item" (click)="this.logout()">Déconnexion</a>

@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.authService.isLoggedIn()){
-      this.user = this.authService.getDecodedToken();
+      this.user = this.authService.getUser();
 
     }
   }

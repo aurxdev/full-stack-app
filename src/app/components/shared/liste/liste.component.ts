@@ -26,24 +26,27 @@ export class ListeComponent implements OnInit {
   constructor(private http: HttpClient, private auth: AuthService) { }
 
   ngOnInit(): void {
-    this.user = this.auth.getDecodedToken();
+    if(!this.auth.isLoggedIn()){
+      return;
+    }
+    this.user = this.auth.getUser();
     let support = this.auth.isSupport();
+    // si c'est un support, on affiche tous les tickets
     if(support){
       this.ticketService.getAllTickets().subscribe((data: any) => {
         this.tickets = data;
       });
     }
+    // sinon on affiche les tickets spécifiques à l'utilisateur
     else{
       this.getItems();
     }
   }
 
   getItems(): void {
-    // to-do : afficher message si pas de ticket
     this.ticketService.getTicketById(this.user.id).subscribe({
       next: (data: any) => {
         this.tickets = Array.isArray(data) ? data : [data];
-        console.log(this.tickets);
       },
       error: (error: any) => {
         this.noTicket = true;

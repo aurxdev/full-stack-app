@@ -16,7 +16,7 @@ export class ProfileComponent {
   
   constructor(userService: UserService, auth : AuthGuard) { 
     this.informations = {};
-    this.user = auth.authService.getDecodedToken();
+    this.user = auth.authService.getUser();
     userService.getUserById(this.user.id).subscribe((data) => {
       this.informations = data
       });

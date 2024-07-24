@@ -12,12 +12,16 @@ interface Token extends JwtPayload{
   providedIn: 'root'
 })
 export class AuthService {
+  private decodedToken: Token | null = null;
 
   // to-do , faire le champ décodé token dans une variable, au lieu de le faire à chaque fois dans la fonction
-  constructor() { }
+  constructor() { 
+    this.updateDecodedToken();
+  }
 
   login(res: any): void{
     localStorage.setItem('accessToken', res.token);
+    this.updateDecodedToken();
   }
 
   getToken(): string | null{
@@ -26,9 +30,7 @@ export class AuthService {
 
   logout(): void{
     localStorage.removeItem('accessToken');
-    if(localStorage.getItem('accessToken') === null){
-
-    }
+    this.decodedToken = null;
   }
 
   isLoggedIn(): boolean{
@@ -36,18 +38,19 @@ export class AuthService {
   }
 
   isSupport(): boolean{
-    const token = this.getDecodedToken();
-    return token ? token.support : false
+    return this.decodedToken ? this.decodedToken.support : false;
   }
 
-  getDecodedToken() : Token | null{
-    const token = localStorage.getItem('accessToken');
-    return token ? jwtDecode(token) : null;
+  getId(): string | null{
+    return this.decodedToken ? this.decodedToken.id : null;
   }
 
-  getUserId(){
-    const token = this.getDecodedToken();
-    return token ? token.id : null;
+  getUser(): Token | null{
+    return this.decodedToken;
   }
 
+  private updateDecodedToken() : void{
+    const token = this.getToken();
+    this.decodedToken = token ? jwtDecode<Token>(token) : null;
+  }
 }

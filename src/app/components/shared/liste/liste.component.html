@@ -8,10 +8,11 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Nom</th>
+                        <th>Intitulé</th>
                         <th>Description</th>
                         <th>Date de création</th>
                         <th>Etat</th>
+                        <th *ngIf="this.authService.isSupport()">Action</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -21,6 +22,8 @@
                         <td>{{ ticket.description }}</td>
                         <td>{{ ticket.date | date:'HH:mm le dd/MM/yyyy' }}</td>
                         <td>{{ ticket.etat | etat }}</td>
+                        <td *ngIf="this.authService.isSupport()"><a class="button is-primary">Répondre</a></td>
+                        <td *ngIf="this.authService.isSupport()"><a class="button is-danger">Fermer le ticket</a></td>
                     </tr>
                 </tfoot>
             </table>
