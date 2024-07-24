@@ -6,17 +6,16 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class EtatPipe implements PipeTransform {
 
-  transform(value: string): string {
-    console.log(value);
-    switch(value){
-      case '0':
-        return 'Ouvert';
-      case '1':
-        return 'En cours';
-      case '2':
-        return 'Fermé';
+  transform(value: Number | undefined): {text:string, class:string} {
+    switch(Number(value)){
+      case 0:
+        return {text: 'Ouvert', class: 'has-text-success'};
+      case 1:
+        return {text:'En cours', class: 'has-text-warning'};
+      case 2:
+        return {text:'Fermé', class: 'has-text-danger'};
       default:
-        return 'Inconnu';
+        return {text:'Inconnu', class: 'has-text-grey'};
     }
   }
 

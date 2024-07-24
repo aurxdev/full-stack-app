@@ -1,10 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthService } from './services/auth.service';
 import { CommonModule } from '@angular/common';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -20,8 +19,7 @@ export class AppComponent implements OnInit {
   user : any;
   authService = inject(AuthService);
 
-
-  constructor(private toastr: ToastrService) { }
+  constructor(private toastr: ToastrService, public router : Router) { }
 
   ngOnInit(): void {
     if(this.authService.isLoggedIn()){
@@ -33,5 +31,6 @@ export class AppComponent implements OnInit {
   logout(): void{
     this.authService.logout();
     this.toastr.success('Vous avez été déconnecté avec succès');
+    this.router.navigate(['/']);
   }
 }

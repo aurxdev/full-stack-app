@@ -5,7 +5,7 @@ export enum TicketEtat{
 }
 
 export interface Ticket{
-    _id?: string;
+    id?: string;
     nom: string | null | undefined;
     categorie: string | null | undefined;
     description: string | null | undefined;
