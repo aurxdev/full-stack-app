@@ -2,6 +2,7 @@ const pool = require('./db');
 
 /* API ENDPOINTS */
 
+// renvoie tous les tickets
 const getTickets = (req, res) => {
     pool.query('SELECT * FROM public.tickets', (err, result) => {
       if (err) {
@@ -13,7 +14,7 @@ const getTickets = (req, res) => {
     });
 }
 
-// récupére les tickets par l'id de l'utilisateur
+// renvoie les tickets par l'id de l'utilisateur
 const getTicketById = (req, res) => {
 
     const id  = req.params.id;
@@ -29,10 +30,12 @@ const getTicketById = (req, res) => {
         res.json(result.rows[0]);
       }
     });
-  };
+  }
 
+
+// créer un ticket
 const createTicket = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const { nom, categorie, description, etat, idUser } = req.body;
   
     if (!nom || !categorie || !description || !idUser) {

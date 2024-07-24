@@ -3,6 +3,7 @@
 const express = require('express');
 const users = require('./db/users');
 const tickets = require('./db/tickets');
+const messages = require('./db/messages');
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -32,7 +33,12 @@ app.post('/api/register', users.register);
 app.post('/api/login', users.login);
 
 // TICKETS
-
 app.get('/api/tickets', tickets.getTickets);
 app.get('/api/tickets/:id', tickets.getTicketById);
 app.post('/api/create-ticket', tickets.createTicket);
+
+
+// MESSAGES
+app.get('/api/messages', messages.getMessages);
+app.get('/api/messages/:id', messages.getMessageByTicket);
+app.post('/api/create-message', messages.createMessage);
