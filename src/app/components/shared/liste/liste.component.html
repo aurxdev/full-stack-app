@@ -3,16 +3,31 @@
         <h1>Bienvenue {{ user.username }}!</h1>
         <h2>Mes tickets</h2>
         <hr/>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr *ngFor="let item of items"><td>{{ item.nom }}</td></tr>
-            </tfoot>
-        </table>
+        <div *ngIf="!this.noTicket; else noTicketMessage">
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Date de création</th>
+                        <th>Etat</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr *ngFor="let ticket of tickets">
+                        <td>{{ ticket.id }}</td>
+                        <td>{{ ticket.nom }}</td>
+                        <td>{{ ticket.description }}</td>
+                        <td>{{ ticket.date | date:'HH:mm le dd/MM/yyyy' }}</td>
+                        <td>{{ ticket.etat | etat }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <ng-template #noTicketMessage>
+            <h3>Vous n'avez pas de ticket en cours.</h3>
+        </ng-template>
     </div>
     <ng-template #notLoggedIn>
         <h1>Vous n'êtes pas connecté.</h1>

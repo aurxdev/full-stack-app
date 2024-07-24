@@ -1,0 +1,17 @@
+CREATE TABLE tickets (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    categorie VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    date TIMESTAMP NOT NULL,
+    etat VARCHAR(50) NOT NULL,
+    idUser INTEGER NOT NULL REFERENCES public.users(id),
+    idSupport INTEGER NOT NULL REFERENCES public.users(id)
+);
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(100),
+    mdp VARCHAR(100),
+	isSupport boolean
+);

@@ -2,36 +2,52 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserService } from '../../../services/user.service';
+import { TicketService } from '../../../services/ticket.service';
 import { AuthService } from '../../../services/auth.service';
+import { TicketEtat } from '../../../models/ticket';
+import { EtatPipe } from '../../../pipes/etat.pipe';
 
 @Component({
   selector: 'app-liste',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, EtatPipe],
   templateUrl: './liste.component.html',
   styleUrl: './liste.component.css'
 })
 export class ListeComponent implements OnInit {
-  items: any[] = [];
+  tickets: any[] = [];
   user:any;
+  noTicket = false;
 
 
-  userService : UserService = inject(UserService);
+  ticketService : TicketService = inject(TicketService);
   authService : AuthService = inject(AuthService);
 
   constructor(private http: HttpClient, private auth: AuthService) { }
 
   ngOnInit(): void {
-    this.getItems();
     this.user = this.auth.getDecodedToken();
-    // console.log(this.user);
+    let support = this.auth.isSupport();
+    if(support){
+      this.ticketService.getAllTickets().subscribe((data: any) => {
+        this.tickets = data;
+      });
+    }
+    else{
+      this.getItems();
+    }
   }
 
   getItems(): void {
-    this.userService.getAllUsers().subscribe((item) =>{
-      this.items=item;
+    // to-do : afficher message si pas de ticket
+    this.ticketService.getTicketById(this.user.id).subscribe({
+      next: (data: any) => {
+        this.tickets = Array.isArray(data) ? data : [data];
+        console.log(this.tickets);
+      },
+      error: (error: any) => {
+        this.noTicket = true;
+      }
     });
-    
   }
 }

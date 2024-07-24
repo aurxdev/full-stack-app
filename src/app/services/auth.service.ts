@@ -13,6 +13,7 @@ interface Token extends JwtPayload{
 })
 export class AuthService {
 
+  // to-do , faire le champ décodé token dans une variable, au lieu de le faire à chaque fois dans la fonction
   constructor() { }
 
   login(res: any): void{
