@@ -4,13 +4,13 @@ import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TicketService } from '../../../services/ticket.service';
 import { AuthService } from '../../../services/auth.service';
-import { TicketEtat } from '../../../models/ticket';
+import { RouterModule } from '@angular/router';
 import { EtatPipe } from '../../../pipes/etat.pipe';
 
 @Component({
   selector: 'app-liste',
   standalone: true,
-  imports: [CommonModule, EtatPipe],
+  imports: [CommonModule, EtatPipe, RouterModule],
   templateUrl: './liste.component.html',
   styleUrl: './liste.component.css'
 })
@@ -44,7 +44,7 @@ export class ListeComponent implements OnInit {
   }
 
   getItems(): void {
-    this.ticketService.getTicketById(this.user.id).subscribe({
+    this.ticketService.getTicketByUserId(this.user.id).subscribe({
       next: (data: any) => {
         this.tickets = Array.isArray(data) ? data : [data];
       },

@@ -14,12 +14,24 @@ const getTickets = (req, res) => {
     });
 }
 
-// renvoie les tickets par l'id de l'utilisateur
+// renvoie un ticket par son id
 const getTicketById = (req, res) => {
+    const id = req.params.id;
+    pool.query('SELECT * FROM public.tickets WHERE id = $1', [id], (err, result) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else if (result.rows.length === 0) {
+        res.status(404).json({ error: 'Ticket non trouvé.' });
+      } else {
+        res.json(result.rows[0]);
+      }
+    });
+}
 
+// renvoie les tickets par l'id de l'utilisateur
+const getTicketByUserId = (req, res) => {
     const id  = req.params.id;
-    console.log(id);
-  
     pool.query('SELECT * FROM public.tickets WHERE idUser = $1', [id], (err, result) => {
       if (err) {
         console.error('Error executing query:', err);
@@ -31,6 +43,7 @@ const getTicketById = (req, res) => {
       }
     });
   }
+
 
 
 // créer un ticket
@@ -56,5 +69,6 @@ const createTicket = async (req, res) => {
 module.exports = {
     getTickets,
     getTicketById,
+    getTicketByUserId,
     createTicket
 };

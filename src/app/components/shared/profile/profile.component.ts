@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../services/user.service';
-import { AuthGuard } from '../../../shared/auth.guard';
+import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,9 +14,9 @@ export class ProfileComponent {
   informations : any;
   user:any;
   
-  constructor(userService: UserService, auth : AuthGuard) { 
+  constructor(userService: UserService, authService : AuthService) { 
     this.informations = {};
-    this.user = auth.authService.getUser();
+    this.user = authService.getUser();
     userService.getUserById(this.user.id).subscribe((data) => {
       this.informations = data
       });

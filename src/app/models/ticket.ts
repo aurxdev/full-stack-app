@@ -11,6 +11,6 @@ export interface Ticket{
     description: string | null | undefined;
     date?: Date | string;
     etat: TicketEtat;
-    idUser: string | null;
-    idSupport?: string | null;
+    iduser: string | null;
+    idsupport?: string | null;
 }

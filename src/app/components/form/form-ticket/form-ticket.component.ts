@@ -32,7 +32,7 @@ export class FormTicketComponent {
         categorie: this.ticketForm.value.categorie,
         description: this.ticketForm.value.description,
         etat: TicketEtat.OUVERT,
-        idUser: this.auth.getId(),
+        iduser: this.auth.getId(),
       }
       console.log(this.ticketForm.value && this.auth.isLoggedIn());
       this.ticketService.createTicket(ticket).subscribe({
