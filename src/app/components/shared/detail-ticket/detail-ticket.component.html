@@ -1,6 +1,12 @@
 <h1>Ticket #{{ ticket?.id }}</h1>
-<h2>{{ ticket?.nom }}</h2>
-<p>{{ ticket?.description }}</p>
+<h2>Intitulé: {{ ticket?.nom }}</h2>
 <p>{{ ticket?.date | date:'le dd/MM/yyyy à HH:mm' }}</p>
 <p [ngClass]="(ticket?.etat | etat).class">{{ (ticket?.etat | etat).text }}</p>
+
+<h3>Discussion</h3>
+<hr/>
+
+<div class="bubble left">
+    {{ ticket?.description }}
+</div>
 

@@ -23,7 +23,9 @@
                         <td>{{ ticket.date | date:'le dd/MM/yyyy à HH:mm' }}</td>
                         <td [ngClass]="(ticket?.etat | etat).class">{{ (ticket?.etat | etat).text }}</td>
                         <td *ngIf="!this.authService.isSupport()"><a class="button is-primary" [routerLink]="['ticket', ticket.id]">Voir les détails</a></td>
-                        <td *ngIf="this.authService.isSupport()"><a class="button is-primary" [routerLink]="['ticket', ticket.id]">Répondre</a></td>
+                        <td *ngIf="this.authService.isSupport()">
+                            <button class="button is-primary js-modal-trigger" data-target="modal-js-example">Répondre</button>
+                        </td>
                         <td *ngIf="this.authService.isSupport()"><a class="button is-danger">Fermer le ticket</a></td>
                     </tr>
                 </tfoot>
@@ -36,3 +38,16 @@
     <ng-template #notLoggedIn>
         <h1>Vous n'êtes pas connecté.</h1>
     </ng-template>
+
+    <div id="modal-js-example" class="modal">
+        <div class="modal-background"></div>
+      
+        <div class="modal-content">
+          <div class="box">
+            <p>Modal JS example</p>
+            <a [routerLink]="['ticket', 3]"></a>
+          </div>
+        </div>
+      
+        <button class="modal-close is-large" aria-label="close"></button>
+      </div>
