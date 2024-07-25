@@ -1,7 +1,7 @@
 export interface Message{
     _id?: string;
-    idTicket: string | null;
+    idticket: string | undefined;
     contenu: string | null | undefined;
     date?: Date | string;
-    idUser: string | null;
+    iduser: string | null;
 }

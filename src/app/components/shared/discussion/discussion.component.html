@@ -1,0 +1,6 @@
+<app-message *ngFor="let message of this.messages">
+    <p>{{ message.contenu }}</p>
+    <p>{{ message.date | date:'le dd/MM/yyyy à HH:mm' }}</p>
+    
+</app-message>
+    

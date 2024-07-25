@@ -14,8 +14,8 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './modal.component.css'
 })
 export class ModalComponent {
-  @Input() isActive: boolean = false;
-  @Input() ticket: Ticket | null = null;
+  isActive: boolean = false;
+  ticket: Ticket | null = null;
   actionType: 'response' | 'close' | null = null;
   ticketService: TicketService = inject(TicketService);
   authService: AuthService = inject(AuthService);

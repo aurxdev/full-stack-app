@@ -16,10 +16,7 @@ const getMessages = (req, res) => {
 
 // renvoie les messages par l'id du ticket
 const getMessageByTicket = (req, res) => {
-
     const id  = req.params.id;
-    console.log(id);
-
     db.query('SELECT * FROM public.messages WHERE idTicket = $1', [id], (err, result) => {
     if (err) {
         console.error('Error executing query:', err);
@@ -27,7 +24,7 @@ const getMessageByTicket = (req, res) => {
     } else if (result.rows.length === 0) {
         res.status(404).json({ error: 'Message non trouvé.' });
     } else {
-        res.json(result.rows[0]);
+        res.json(result.rows);
     }
     });
 }
@@ -35,14 +32,14 @@ const getMessageByTicket = (req, res) => {
 
 const createMessage = async (req, res) => {
 
-    const { contenu, idTicket, idUser } = req.body;
+    const { contenu, idticket, iduser } = req.body;
   
-    if (!contenu || !idTicket || !idUser) {
+    if (!contenu || !idticket || !iduser) {
       return res.status(400).json({ error: 'Contenu, idTicket et idUser requis.' });
     }
 
     try{
-        const result = await db.query('INSERT INTO public.messages (idTicket, contenu, date, idUser) VALUES ($1, $2, $3, $4) RETURNING *', [idTicket, contenu, new Date(), idUser]);
+        const result = await db.query('INSERT INTO public.messages (idTicket, contenu, date, idUser) VALUES ($1, $2, $3, $4) RETURNING *', [idticket, contenu, new Date(), iduser]);
         return res.json(result.rows[0]);
     }
     catch (err){

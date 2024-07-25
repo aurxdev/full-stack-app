@@ -1,0 +1,22 @@
+<form [formGroup]="messageForm" (submit)="submitForm()">
+
+    <h1>Envoi d'un message</h1>
+    
+    <div class="field">
+        <label class="label" for="contenu">Contenu</label>
+        <div class="control">
+        <textarea class="textarea" id="contenu" name="contenu" formControlName="message" placeholder="Contenu du message"></textarea>
+        </div>
+        <div *ngIf="messageForm.controls.message.touched && messageForm.controls.message.errors?.['required']" class="help is-danger">
+        Le contenu est requis.
+        </div>
+    </div>
+    
+    <div class="field">
+        <div class="control">
+        <button type="submit" class="button is-link" [disabled]="!messageForm.valid">Soumettre</button>
+        </div>
+    </div>
+
+
+</form>

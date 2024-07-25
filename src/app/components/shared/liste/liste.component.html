@@ -23,11 +23,12 @@
                         <td>{{ ticket.date | date:'le dd/MM/yyyy à HH:mm' }}</td>
                         <td [ngClass]="(ticket?.etat | etat).class">{{ (ticket?.etat | etat).text }}</td>
                         <td *ngIf="!this.authService.isSupport()"><a class="button is-primary" [routerLink]="['ticket', ticket.id]">Voir les détails</a></td>
-                        <td *ngIf="this.authService.isSupport()">
+                        <!-- rendre ca plus joli -->
+                        <td *ngIf="this.authService.isSupport() && ticket?.etat == 1">
                             <button class="button is-primary" (click)="modal.openModal(ticket, 'response')">Répondre</button>
                         </td>
 
-                        <td *ngIf="this.authService.isSupport()" (click)="modal.openModal(ticket, 'close')"><a class="button is-danger">Fermer le ticket</a></td>
+                        <td *ngIf="this.authService.isSupport() && ticket.etat < 2" (click)="modal.openModal(ticket, 'close')"><a class="button is-danger">Fermer le ticket</a></td>
                     </tr>
                 </tfoot>
             </table>

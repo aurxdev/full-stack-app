@@ -6,11 +6,14 @@ import { DatePipe } from '@angular/common';
 import { EtatPipe } from '../../../pipes/etat.pipe';
 import { CommonModule } from '@angular/common';
 import { MessageComponent } from '../message/message.component';
+import { FormMessageComponent } from '../../form/form-message/form-message.component';
+import { DiscussionComponent } from '../discussion/discussion.component';
+
 
 @Component({
   selector: 'app-detail-ticket',
   standalone: true,
-  imports: [DatePipe, EtatPipe, CommonModule, MessageComponent],
+  imports: [DatePipe, EtatPipe, CommonModule, MessageComponent, FormMessageComponent, DiscussionComponent],
   templateUrl: './detail-ticket.component.html',
   styleUrl: './detail-ticket.component.css'
 })
@@ -29,7 +32,6 @@ export class DetailTicketComponent {
     });
     }
 
-
     loadTicket(idTicket: string): void {
       this.ticketService.getTicketById(idTicket).subscribe({
         next: (ticket) => {
@@ -40,6 +42,5 @@ export class DetailTicketComponent {
         }
       });
     }
-
   }
 

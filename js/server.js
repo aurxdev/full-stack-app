@@ -42,5 +42,5 @@ app.put('/api/tickets/update-etat/:id', tickets.updateTicketEtat);
 
 // MESSAGES
 app.get('/api/messages', messages.getMessages);
-app.get('/api/messages/:id', messages.getMessageByTicket);
+app.get('/api/messages/tickets/:id', messages.getMessageByTicket);
 app.post('/api/create-message', messages.createMessage);

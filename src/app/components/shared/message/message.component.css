@@ -9,6 +9,7 @@
     background: rgba(48, 48, 48, 0.13);
     border: 1px solid #303030;
     color:white;
+    margin: 10px;
 }
 
 .left {
@@ -21,4 +22,5 @@
 --_p: 100%;
 border-bottom-right-radius: 0 0;
 place-self: end;
+float: right;
 }

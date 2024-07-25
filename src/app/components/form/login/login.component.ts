@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
