@@ -38,8 +38,8 @@ import { TicketEtat } from "../models/ticket";
       );
     }
 
-    changeEtat(ticket: Ticket, etat: TicketEtat): void {
-      this.http.put<Ticket>(`${this.url}/tickets/update-etat/${ticket.id}`, {etat: etat})
+    changeEtat(ticket: Ticket, etat: TicketEtat, idsupport : string): void {
+      this.http.put<Ticket>(`${this.url}/tickets/update-etat/${ticket.id}`, {etat: etat, idsupport: idsupport})
         .subscribe({
           next: (updatedTicket) => {
             this.ticketUpdate.next(updatedTicket);

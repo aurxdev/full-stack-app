@@ -65,17 +65,17 @@ const createTicket = async (req, res) => {
     }
 }
 
-// met à jour l'état d'un ticket
+// met à jour l'état d'un ticket et l'id du support
 const updateTicketEtat = async (req, res) => {
     const id = req.params.id;
-    const { etat } = req.body;
+    const { etat, idsupport } = req.body;
 
     if (!etat) {
-        return res.status(400).json({ error: 'Etat requis.' });
+        return res.status(400).json({ error: 'Etat et id requis.' });
     }
 
     try {
-        const result = await pool.query('UPDATE public.tickets SET etat = $1 WHERE id = $2 RETURNING *', [etat, id]);
+        const result = await pool.query('UPDATE public.tickets SET etat = $1, idsupport = $2 WHERE id = $3 RETURNING *', [etat, idsupport, id]);
         return res.json(result.rows[0]);
     } catch (err) {
         console.error('Erreur lors de l\'exécution!', err);
