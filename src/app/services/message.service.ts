@@ -17,12 +17,6 @@ import { Message } from "../models/message";
     private url = 'http://localhost:3000/api';
     constructor(private http: HttpClient){}
     
-    /*
-    createMessage(message: Message): Observable<Message>{
-      return this.http.post<any>(`${this.url}/create-message`, message);
-    }
-      */
-
     createMessage(message: Message): Observable<Message | null> {
       return this.http.post<Message>(`${this.url}/create-message`, message).pipe(
         map(newMessage => {
@@ -34,8 +28,7 @@ import { Message } from "../models/message";
           return of(null);
         })
       );
-    }
-    
+    }  
 
     getAllMessages(): Observable<any[]>{
       return this.http.get<any[]>(`${this.url}/messages`);
@@ -52,8 +45,6 @@ import { Message } from "../models/message";
     getMessageByTicketId(id: string): Observable<any>{
       return this.http.get<Message[]>(`${this.url}/messages/tickets/${id}`);
     }
-
-
 
     emitMessages(id: string): void {
       this.getMessageByTicketId(id).subscribe({
