@@ -1,6 +1,6 @@
 <h1>Ticket #{{ ticket?.id }}</h1>
 <h2>Intitulé: {{ ticket?.nom }}</h2>
-<h3>{{ ticket?.description }}</h3>
+
 <p>{{ ticket?.date | date:'le dd/MM/yyyy à HH:mm' }}</p>
 <p [ngClass]="(ticket?.etat | etat).class">{{ (ticket?.etat | etat).text }}</p>
 
@@ -10,6 +10,7 @@
 <hr/>
 
 
+<app-message [contenu]="ticket?.description ?? ''" [date]="ticket?.date?.toString() ?? ''" [side]="true" ></app-message>
 <app-discussion [idTicket]="ticket?.id ?? ''"></app-discussion>
 
 

@@ -1,5 +1,7 @@
 <div class="container">
     <div class="bubble" [class.left]="side" [class.right]="!side">
+        <h3 *ngIf="side" class="has-text-primary has-text-weight-bold">Client</h3>
+        <h3 *ngIf="!side" class="has-text-warning has-text-weight-bold">Support</h3>
         <p>{{ this.contenu }}</p>
         <p>{{ this.date | date:'le dd/MM/yyyy à HH:mm' }}</p>
     </div>

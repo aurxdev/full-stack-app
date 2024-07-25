@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-message',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, CommonModule],
   templateUrl: './message.component.html',
   styleUrl: './message.component.css'
 })

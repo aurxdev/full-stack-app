@@ -38,7 +38,7 @@ import { Message } from "../models/message";
     }
 
     sameIdTicket(id1 : string | null, id2: string | null): boolean{
-      return id1 === id2;
+      return id1 !== id2;
     }
 
     emitMessagesByTicketId(id: string): void {

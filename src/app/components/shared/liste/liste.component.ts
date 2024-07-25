@@ -48,6 +48,7 @@ export class ListeComponent implements OnInit {
   getItems(): void {
     this.ticketService.getTicketByUserId(this.user.id).subscribe({
       next: (data: any) => {
+
         this.tickets = Array.isArray(data) ? data : [data];
       },
       error: (error: any) => {
