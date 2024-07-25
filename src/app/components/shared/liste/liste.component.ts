@@ -55,9 +55,4 @@ export class ListeComponent implements OnInit {
       }
     });
   }
-
-
-  subscribeTicket(ticket: any){
-    this.ticketService.changeEtat(ticket, TicketEtat.EN_COURS);
-  }
 }

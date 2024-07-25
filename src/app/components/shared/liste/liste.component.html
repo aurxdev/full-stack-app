@@ -24,23 +24,18 @@
                         <td [ngClass]="(ticket?.etat | etat).class">{{ (ticket?.etat | etat).text }}</td>
                         <td *ngIf="!this.authService.isSupport()"><a class="button is-primary" [routerLink]="['ticket', ticket.id]">Voir les détails</a></td>
                         <td *ngIf="this.authService.isSupport()">
-                            <button class="button is-primary" (click)="modal.openModal(ticket)">Répondre</button>
+                            <button class="button is-primary" (click)="modal.openModal(ticket, 'response')">Répondre</button>
                         </td>
-                        <td *ngIf="this.authService.isSupport()"><a class="button is-danger">Fermer le ticket</a></td>
+
+                        <td *ngIf="this.authService.isSupport()" (click)="modal.openModal(ticket, 'close')"><a class="button is-danger">Fermer le ticket</a></td>
                     </tr>
                 </tfoot>
             </table>
         </div>
 
         <app-modal #modal>
-            <h3 class="is-size-3">Voulez-vous répondre au ticket #{{ modal.ticket?.id }}?</h3>
-            <p>Vous serez en charge de ce ticket.</p>
-            <hr/>
-            <div class="buttons">
-                <a class="button is-primary" [routerLink]="['/ticket', modal.ticket?.id]" (click)="this.subscribeTicket(modal.ticket)">Confirmer</a>
-                <a class="button is-danger" (click)="modal.closeModal()">Annuler</a>
-            </div>
         </app-modal>
+
 
 
         <ng-template #noTicketMessage>

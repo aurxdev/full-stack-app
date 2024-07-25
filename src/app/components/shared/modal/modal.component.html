@@ -1,3 +1,4 @@
+<!--
 <div class="modal" [class.is-active]="isActive">
     <div class="modal-background" (click)="closeModal()"></div>
     <div class="modal-content">
@@ -7,3 +8,63 @@
     </div>
     <button class="modal-close is-large" aria-label="close" (click)="closeModal()"></button>
   </div>  
+-->
+  <!--
+  <ng-container *ngIf="this.actionType === 'response'">
+    <div class="modal" [class.is-active]="isActive">
+      <div class="modal-background" (click)="closeModal()">
+        <div class="modal-content">
+          <div class="box">
+      <h3 class="is-size-3">Voulez-vous répondre au ticket #{{ this.ticket?.id }}?</h3>
+      <p>Vous serez en charge de ce ticket.</p>
+      <hr/>
+      <div class="buttons">
+          <a class="button is-primary" [routerLink]="['/ticket', this.ticket?.id]" (click)="subscribeTicket(this.ticket)">Confirmer</a>
+          <a class="button is-danger" (click)="this.closeModal()">Annuler</a>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="this.actionType === 'close'">
+    <h3 class="is-size-3">Voulez-vous fermer le ticket #{{ this.ticket?.id }}?</h3>
+    <p>Cette action est irréversible.</p>
+    <hr/>
+    <div class="buttons">
+        <a class="button is-primary" [routerLink]="['/ticket', this.ticket?.id]" (click)="closeTicket(this.ticket)">Confirmer</a>
+        <a class="button is-danger" (click)="this.closeModal()">Annuler</a>
+    </div>
+</ng-container>
+-->
+
+<div class="modal" [class.is-active]="isActive">
+  <div class="modal-background" (click)="closeModal()"></div>
+  <div class="modal-content">
+    <div class="box">
+
+      <ng-container *ngIf="actionType === 'response'">
+        <h3 class="is-size-3 has-text-primary">Voulez-vous répondre au ticket #{{ this.ticket?.id }}?</h3>
+        <p>Vous serez en charge de ce ticket.</p>
+        <hr/>
+        <div class="buttons">
+            <a class="button is-primary" [routerLink]="['/ticket', this.ticket?.id]" (click)="subscribeTicket(this.ticket)">Confirmer</a>
+            <a class="button is-danger" (click)="this.closeModal()">Annuler</a>
+          </div>
+      </ng-container>
+
+
+      <ng-container *ngIf="actionType === 'close'">
+        <h3 class="is-size-3 has-text-primary">Voulez-vous fermer le ticket #{{ this.ticket?.id }}?</h3>
+        <p>Cette action est irréversible.</p>
+        <hr/>
+        <div class="buttons">
+            <a class="button is-primary" [routerLink]="['/ticket', this.ticket?.id]" (click)="closeTicket(this.ticket)">Confirmer</a>
+            <a class="button is-danger" (click)="this.closeModal()">Annuler</a>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+  <button class="modal-close is-large" aria-label="close" (click)="closeModal()"></button>
+</div>

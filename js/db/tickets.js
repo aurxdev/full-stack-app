@@ -4,7 +4,7 @@ const pool = require('./db');
 
 // renvoie tous les tickets
 const getTickets = (req, res) => {
-    pool.query('SELECT * FROM public.tickets', (err, result) => {
+    pool.query('SELECT * FROM public.tickets ORDER BY date DESC', (err, result) => {
       if (err) {
         console.error('Error executing query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
