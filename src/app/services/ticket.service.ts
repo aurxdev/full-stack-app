@@ -1,14 +1,17 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { Ticket } from "../models/ticket";
 import { catchError, map } from 'rxjs/operators';
+import { TicketEtat } from "../models/ticket";
 
 @Injectable({
     providedIn: 'root'
   })
   export class TicketService {
-    
+    private ticketUpdate = new BehaviorSubject<Ticket | null>(null);
+    ticketUpdate$ = this.ticketUpdate.asObservable();
+
     private url = 'http://localhost:3000/api';
     constructor(private http: HttpClient){}
 
@@ -33,6 +36,18 @@ import { catchError, map } from 'rxjs/operators';
         map(data => data.iduser === userId),
         catchError(() => of(false)) // false en cas d'erreur
       );
+    }
+
+    changeEtat(ticket: Ticket, etat: TicketEtat): void {
+      this.http.put<Ticket>(`${this.url}/tickets/update-etat/${ticket.id}`, {etat: etat})
+        .subscribe({
+          next: (updatedTicket) => {
+            this.ticketUpdate.next(updatedTicket);
+          },
+          error: (error) => {
+            console.error('Erreur lors de la mise à jour de l\'état du ticket', error);
+          }
+        });
     }
 
     /*

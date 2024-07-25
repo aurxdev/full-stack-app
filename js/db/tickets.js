@@ -65,10 +65,28 @@ const createTicket = async (req, res) => {
     }
 }
 
+// met à jour l'état d'un ticket
+const updateTicketEtat = async (req, res) => {
+    const id = req.params.id;
+    const { etat } = req.body;
+
+    if (!etat) {
+        return res.status(400).json({ error: 'Etat requis.' });
+    }
+
+    try {
+        const result = await pool.query('UPDATE public.tickets SET etat = $1 WHERE id = $2 RETURNING *', [etat, id]);
+        return res.json(result.rows[0]);
+    } catch (err) {
+        console.error('Erreur lors de l\'exécution!', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 
 module.exports = {
     getTickets,
     getTicketById,
     getTicketByUserId,
-    createTicket
+    createTicket,
+    updateTicketEtat
 };

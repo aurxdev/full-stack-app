@@ -37,6 +37,7 @@ app.get('/api/tickets', tickets.getTickets);
 app.get('/api/tickets/:id', tickets.getTicketById);
 app.get('/api/tickets/users/:id', tickets.getTicketByUserId);
 app.post('/api/create-ticket', tickets.createTicket);
+app.put('/api/tickets/update-etat/:id', tickets.updateTicketEtat);
 
 
 // MESSAGES

@@ -6,11 +6,13 @@ import { TicketService } from '../../../services/ticket.service';
 import { AuthService } from '../../../services/auth.service';
 import { RouterModule } from '@angular/router';
 import { EtatPipe } from '../../../pipes/etat.pipe';
+import { ModalComponent } from '../modal/modal.component';
+import { TicketEtat } from '../../../models/ticket';
 
 @Component({
   selector: 'app-liste',
   standalone: true,
-  imports: [CommonModule, EtatPipe, RouterModule],
+  imports: [CommonModule, EtatPipe, RouterModule, ModalComponent],
   templateUrl: './liste.component.html',
   styleUrl: './liste.component.css'
 })
@@ -52,5 +54,10 @@ export class ListeComponent implements OnInit {
         this.noTicket = true;
       }
     });
+  }
+
+
+  subscribeTicket(ticket: any){
+    this.ticketService.changeEtat(ticket, TicketEtat.EN_COURS);
   }
 }

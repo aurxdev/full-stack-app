@@ -1,0 +1,24 @@
+.bubble {
+    --r: 1em;  /* the radius */
+    --t: 1.5em; /* the size of the tail */
+    
+    max-width: 300px;
+    padding: 1em;
+    border-inline: var(--t) solid #0000;
+    border-radius: calc(var(--r) + var(--t))/var(--r);
+    background: rgba(48, 48, 48, 0.13);
+    border: 1px solid #303030;
+    color:white;
+}
+
+.left {
+    --_p: 0;
+    border-bottom-left-radius: 0 0;
+    place-self: start;
+  }
+
+.right {
+--_p: 100%;
+border-bottom-right-radius: 0 0;
+place-self: end;
+}
