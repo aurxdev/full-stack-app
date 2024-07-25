@@ -48,15 +48,15 @@ const getTicketByUserId = (req, res) => {
 
 // créer un ticket
 const createTicket = async (req, res) => {
-    // console.log(req.body);
-    const { nom, categorie, description, etat, idUser } = req.body;
+    console.log(req.body);
+    const { nom, categorie, description, etat, iduser } = req.body;
   
-    if (!nom || !categorie || !description || !idUser) {
+    if (!nom || !categorie || !description || !iduser) {
       return res.status(400).json({ error: 'Titre, description, userId et idSupport requis.' });
     }
 
     try{
-        const result = await pool.query('INSERT INTO public.tickets (nom, categorie, description, date, etat, idUser, idSupport) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *', [nom, categorie, description, new Date(), 0, idUser, 1]);
+        const result = await pool.query('INSERT INTO public.tickets (nom, categorie, description, date, etat, idUser, idSupport) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *', [nom, categorie, description, new Date(), 0, iduser, 1]);
         return res.json(result.rows[0]);
     }
     catch (err){

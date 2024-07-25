@@ -12,6 +12,14 @@
     margin: 10px;
 }
 
+.container{  margin: 0;
+  display: grid;
+
+  gap: 20px;
+  font-family: system-ui, sans-serif;
+  font-size: 20px;
+}
+
 .left {
     --_p: 0;
     border-bottom-left-radius: 0 0;
@@ -22,5 +30,5 @@
 --_p: 100%;
 border-bottom-right-radius: 0 0;
 place-self: end;
-float: right;
+position: relative;
 }

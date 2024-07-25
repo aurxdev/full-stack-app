@@ -1,3 +1,6 @@
-<div class="bubble left">
-    <ng-content></ng-content>
+<div class="container">
+    <div class="bubble" [class.left]="side" [class.right]="!side">
+        <p>{{ this.contenu }}</p>
+        <p>{{ this.date | date:'le dd/MM/yyyy à HH:mm' }}</p>
+    </div>
 </div>

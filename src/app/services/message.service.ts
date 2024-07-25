@@ -29,12 +29,16 @@ import { Message } from "../models/message";
       return this.http.get<any>(`${this.url}/messages/${id}`);
     }
 
-    getMessageByUserId(id: string): Observable<any>{
+    getMessageByUserId(id: string): Observable<Message[]>{
       return this.http.get<any>(`${this.url}/messages/users/${id}`);
     }
 
     getMessageByTicketId(id: string): Observable<any>{
-      return this.http.get<any>(`${this.url}/messages/tickets/${id}`);
+      return this.http.get<Message[]>(`${this.url}/messages/tickets/${id}`);
+    }
+
+    sameIdTicket(id1 : string | null, id2: string | null): boolean{
+      return id1 === id2;
     }
 
     emitMessagesByTicketId(id: string): void {

@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import { Message } from '../../../models/message';
 import { MessageService } from '../../../services/message.service';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-discussion',
@@ -17,6 +18,7 @@ export class DiscussionComponent implements OnChanges {
   @Input() idTicket: string = '';
   messages: Message[] = [];
   messageService: MessageService = inject(MessageService);
+  authService: AuthService = inject(AuthService);
 
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -34,4 +36,5 @@ export class DiscussionComponent implements OnChanges {
       }
     });
   }
+
 }

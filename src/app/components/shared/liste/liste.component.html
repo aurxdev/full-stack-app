@@ -24,7 +24,7 @@
                         <td [ngClass]="(ticket?.etat | etat).class">{{ (ticket?.etat | etat).text }}</td>
                         <td *ngIf="!this.authService.isSupport()"><a class="button is-primary" [routerLink]="['ticket', ticket.id]">Voir les détails</a></td>
                         <!-- rendre ca plus joli -->
-                        <td *ngIf="this.authService.isSupport() && ticket?.etat == 1">
+                        <td *ngIf="this.authService.isSupport() && ticket?.etat <= 1">
                             <button class="button is-primary" (click)="modal.openModal(ticket, 'response')">Répondre</button>
                         </td>
 

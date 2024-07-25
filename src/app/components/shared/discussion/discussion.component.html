@@ -1,6 +1,6 @@
-<app-message *ngFor="let message of this.messages">
-    <p>{{ message.contenu }}</p>
-    <p>{{ message.date | date:'le dd/MM/yyyy à HH:mm' }}</p>
-    
-</app-message>
+<div *ngFor="let message of this.messages">
+    <app-message [contenu]="message.contenu ?? ''" [date]="message.date?.toString() ?? ''" [side]="this.messageService.sameIdTicket(message.iduser, this.authService.getId())">
+
+    </app-message>
+</div>
     
