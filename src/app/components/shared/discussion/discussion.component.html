@@ -1,6 +1,9 @@
-<div *ngFor="let message of this.messages">
-    <app-message [contenu]="message.contenu ?? ''" [date]="message.date?.toString() ?? ''" [side]="this.messageService.sameIdTicket(message.iduser, this.authService.getId())">
+<div class="messages-container">
+    <div *ngFor="let message of this.messages">
+        <app-message [contenu]="message.contenu ?? ''" [date]="message.date?.toString() ?? ''" [side]="this.messageService.sameIdTicket(message.iduser, this.authService.getId())">
 
-    </app-message>
+        </app-message>
+    </div>
+    <div #scrollAnchor></div>
 </div>
     

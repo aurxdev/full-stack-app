@@ -1,4 +1,5 @@
 import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { MessageComponent } from '../message/message.component';
 import { DatePipe } from '@angular/common';
 import { Message } from '../../../models/message';
@@ -13,13 +14,14 @@ import { AuthService } from '../../../services/auth.service';
   templateUrl: './discussion.component.html',
   styleUrls: ['./discussion.component.css']
 })
-export class DiscussionComponent implements OnChanges {
+export class DiscussionComponent implements OnChanges, AfterViewChecked {
 
   @Input() idTicket: string = '';
   messages: Message[] = [];
   messageService: MessageService = inject(MessageService);
   authService: AuthService = inject(AuthService);
 
+  @ViewChild('scrollAnchor') private scrollAnchor!: ElementRef;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['idTicket'] && changes['idTicket'].currentValue) {
@@ -30,11 +32,16 @@ export class DiscussionComponent implements OnChanges {
 
   loadMessages(idTicket: string): void {
     this.messageService.emitMessagesByTicketId(idTicket);
-    this.messageService.messageUpdate$.subscribe(newMessage => {
-      if (newMessage) {
-        this.messages.push(newMessage);
+    this.messageService.messageUpdate$.subscribe(messages => {
+      if (messages) {
+        this.messages.push(...messages);
       }
     });
   }
+
+  ngAfterViewChecked() {
+    this.scrollAnchor.nativeElement.scrollIntoView({ behavior: 'smooth' });
+  }
+
 
 }
