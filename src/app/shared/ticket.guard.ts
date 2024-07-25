@@ -9,7 +9,7 @@ import { catchError, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class UserIdMatchGuard implements CanActivate {
+export class TicketGuard implements CanActivate {
 
   constructor(
     public authService: AuthService,
@@ -24,6 +24,30 @@ export class UserIdMatchGuard implements CanActivate {
 
     // si c'est un support, on autorise l'accès à la page
     if (this.authService.isSupport()) {
+      // on vérifie que l'id support est != -1, et si oui on autorise l'accès au support qui gère ce ticket
+
+      if (this.authService.getId() === "-1") {
+        return of(true);
+      }
+      else{
+        // regarder si idsupport == id de l'utilisateur de la session
+        return this.ticketService.verifySupport(route.params['id'], this.authService.getId() as string).pipe(
+          map(isAuthorized => {
+            if (!isAuthorized) {
+              this.toastr.error('Vous n\'êtes pas autorisé à accéder à cette page.', "Erreur");
+              this.router.navigate(['/']);
+              return false;
+            }
+            return true;
+          }),
+          catchError(error => {
+            this.toastr.error('Une erreur est survenue.', "Erreur");
+            this.router.navigate(['/']);
+            return of(false);
+          })        
+        );
+      }
+
       return of(true);
     }
     // on vérifie que l'id est un nombre

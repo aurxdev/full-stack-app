@@ -33,8 +33,8 @@ app.post('/api/register', users.register);
 app.post('/api/login', users.login);
 
 // TICKETS
-app.get('/api/tickets', tickets.getTickets);
-app.get('/api/tickets/:id', tickets.getTicketById);
+app.get('/api/tickets/:id', tickets.getTickets);
+app.get('/api/ticket/:id', tickets.getTicketById);
 app.get('/api/tickets/users/:id', tickets.getTicketByUserId);
 app.post('/api/create-ticket', tickets.createTicket);
 app.put('/api/tickets/update-etat/:id', tickets.updateTicketEtat);

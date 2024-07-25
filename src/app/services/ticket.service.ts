@@ -15,12 +15,12 @@ import { TicketEtat } from "../models/ticket";
     private url = 'http://localhost:3000/api';
     constructor(private http: HttpClient){}
 
-    getAllTickets(): Observable<Ticket[]>{
-        return this.http.get<any[]>(`${this.url}/tickets`);
+    getAllTickets(id: string | null): Observable<Ticket[]>{
+        return this.http.get<Ticket[]>(`${this.url}/tickets/${id}`);
     }
 
     getTicketById(id: string | null): Observable<Ticket>{
-      return this.http.get<any>(`${this.url}/tickets/${id}`);
+      return this.http.get<Ticket>(`${this.url}/ticket/${id}`);
     }
 
     getTicketByUserId(id: string): Observable<Ticket>{
@@ -29,6 +29,13 @@ import { TicketEtat } from "../models/ticket";
 
     createTicket(ticket: Ticket): Observable<any>{
       return this.http.post<any>(`${this.url}/create-ticket`, ticket);
+    }
+
+    verifySupport(id:string, idSupport: string): Observable<boolean> {
+      return this.getTicketById(id).pipe(
+        map(data => data.idsupport === idSupport),
+        catchError(() => of(false)) // false en cas d'erreur
+      );
     }
 
     verifyTicket(ticketId: string, userId: string): Observable<boolean> {

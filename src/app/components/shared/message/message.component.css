@@ -1,11 +1,11 @@
 .bubble {
-    --r: 1em;  /* the radius */
+
     --t: 1.5em; /* the size of the tail */
     
-    max-width: 300px;
+    max-width: 50%;
     padding: 1em;
     border-inline: var(--t) solid #0000;
-    border-radius: calc(var(--r) + var(--t))/var(--r);
+    border-radius: 20px;
     background: rgba(48, 48, 48, 0.13);
     border: 1px solid #303030;
     color:white;

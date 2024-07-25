@@ -12,28 +12,26 @@
                         <th>Description</th>
                         <th>Date de création</th>
                         <th>Etat</th>
-                        <th><p>Action</p></th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr *ngFor="let ticket of tickets">
                         <td><strong>{{ ticket.id }}</strong></td>
                         <td>{{ ticket.nom }}</td>
-                        <td>{{ ticket.description }}</td>
+                        <td>{{ ticket.description | truncate: 200 }}</td>
                         <td>{{ ticket.date | date:'le dd/MM/yyyy à HH:mm' }}</td>
                         <td [ngClass]="(ticket?.etat | etat).class">{{ (ticket?.etat | etat).text }}</td>
                         <td *ngIf="!this.authService.isSupport()"><a class="button is-primary" [routerLink]="['ticket', ticket.id]">Voir les détails</a></td>
-                        <!-- rendre ca plus joli -->
-                        <td *ngIf="this.authService.isSupport() && ticket?.etat == 0; else reprendre">
+                        <td *ngIf="this.authService.isSupport() && ticket?.etat == ticketEtat.OUVERT; else reprendre">
                             <button class="button is-primary" (click)="modal.openModal(ticket, 'response')">Répondre</button>
                         </td>
                         <ng-template #reprendre>
-                            <td *ngIf="this.authService.isSupport() && ticket?.etat == 1">
+                            <td *ngIf="this.authService.isSupport() && ticket?.etat == ticketEtat.EN_COURS">
                                 <button class="button is-primary" [routerLink]="['ticket',ticket.id]">Reprendre</button>
                             </td>
                         </ng-template>
 
-                        <td *ngIf="this.authService.isSupport() && ticket.etat < 2" (click)="modal.openModal(ticket, 'close')"><a class="button is-danger">Fermer le ticket</a></td>
+                        <td *ngIf="this.authService.isSupport() && ticket.etat < ticketEtat.FERME" (click)="modal.openModal(ticket, 'close')"><a class="button is-danger">Fermer le ticket</a></td>
                     </tr>
                 </tfoot>
             </table>

@@ -9,7 +9,8 @@ import { NotAuthGuard } from './shared/not-auth.guard';
 import { ProfileComponent } from './components/shared/profile/profile.component';
 import { FormTicketComponent } from './components/form/form-ticket/form-ticket.component';
 import { DetailTicketComponent } from './components/shared/detail-ticket/detail-ticket.component';
-import { UserIdMatchGuard } from './shared/user-id-match.guard';
+import { TicketGuard } from './shared/ticket.guard';
+import { tick } from '@angular/core/testing';
 
 export const routes: Routes = [
     {
@@ -50,7 +51,7 @@ export const routes: Routes = [
         path:'ticket/:id',
         component: DetailTicketComponent,
         title: 'Détail du ticket',
-        canActivate: [NotAuthGuard,UserIdMatchGuard],
+        canActivate: [NotAuthGuard,TicketGuard],
     },
     {
         path:'**',

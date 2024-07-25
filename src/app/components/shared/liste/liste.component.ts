@@ -8,11 +8,12 @@ import { RouterModule } from '@angular/router';
 import { EtatPipe } from '../../../pipes/etat.pipe';
 import { ModalComponent } from '../modal/modal.component';
 import { TicketEtat } from '../../../models/ticket';
+import { TruncatePipe } from '../../../pipes/truncate.pipe';
 
 @Component({
   selector: 'app-liste',
   standalone: true,
-  imports: [CommonModule, EtatPipe, RouterModule, ModalComponent],
+  imports: [CommonModule, EtatPipe, RouterModule, ModalComponent, TruncatePipe],
   templateUrl: './liste.component.html',
   styleUrl: './liste.component.css'
 })
@@ -24,6 +25,7 @@ export class ListeComponent implements OnInit {
 
   ticketService : TicketService = inject(TicketService);
   authService : AuthService = inject(AuthService);
+  ticketEtat = TicketEtat;
 
   constructor(private http: HttpClient, private auth: AuthService) { }
 
@@ -35,8 +37,13 @@ export class ListeComponent implements OnInit {
     let support = this.auth.isSupport();
     // si c'est un support, on affiche tous les tickets
     if(support){
-      this.ticketService.getAllTickets().subscribe((data: any) => {
-        this.tickets = data;
+      this.ticketService.getAllTickets(this.user.id).subscribe({
+        next: (data: any) => {
+          this.tickets = Array.isArray(data) ? data : [data];
+        },
+        error: (error: any) => {
+          this.noTicket = true;
+        }
       });
     }
     // sinon on affiche les tickets spécifiques à l'utilisateur

@@ -37,7 +37,7 @@ export class FormTicketComponent {
       console.log(this.ticketForm.value && this.auth.isLoggedIn());
       this.ticketService.createTicket(ticket).subscribe({
         next: (res) => {
-          this.toastr.success(res.message, 'Succès', { closeButton: true, positionClass: 'toast-top-right' });
+          this.toastr.success('Votre ticket a été publié avec succès et sera traité dans les plus brefs délais.', 'Succès', { closeButton: true, positionClass: 'toast-top-right' });
           this.router.navigate(['/']);
         },
         error: (error) => {

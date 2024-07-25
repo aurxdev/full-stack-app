@@ -1,6 +1,10 @@
 <div class="messages-container">
     <div *ngFor="let message of this.messages">
-        <app-message [contenu]="message.contenu ?? ''" [date]="message.date?.toString() ?? ''" [side]="this.messageService.sameIdTicket(message.iduser, this.authService.getId())">
+        <app-message 
+        [contenu]="message.contenu ?? ''" 
+        [nom]="message.iduser ?? ''"
+        [date]="message.date?.toString() ?? ''" 
+        [side]="(message.iduser === this.idUser)">
 
         </app-message>
     </div>

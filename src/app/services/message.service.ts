@@ -53,11 +53,9 @@ import { Message } from "../models/message";
       return this.http.get<Message[]>(`${this.url}/messages/tickets/${id}`);
     }
 
-    sameIdTicket(id1 : string | null, id2: string | null): boolean{
-      return id1 !== id2;
-    }
 
-    emitMessagesByTicketId(id: string): void {
+
+    emitMessages(id: string): void {
       this.getMessageByTicketId(id).subscribe({
         next: (messages) => {
           this.messageUpdate.next(messages);

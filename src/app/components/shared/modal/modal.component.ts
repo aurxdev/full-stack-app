@@ -33,9 +33,11 @@ export class ModalComponent {
 
   subscribeTicket(ticket: any){
     this.ticketService.changeEtat(ticket, TicketEtat.EN_COURS, this.authService.getId() as string);
+    this.closeModal();
   }
 
   closeTicket(ticket: any){
     this.ticketService.changeEtat(ticket, TicketEtat.FERME, this.authService.getId() as string);
+    this.closeModal();
   }
 }
