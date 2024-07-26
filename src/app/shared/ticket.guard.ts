@@ -4,7 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../services/auth.service';
 import { TicketService } from '../services/ticket.service';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { Ticket } from '../models/ticket';
 
 @Injectable({
   providedIn: 'root'
@@ -22,53 +23,39 @@ export class TicketGuard implements CanActivate {
     route: ActivatedRouteSnapshot
   ): Observable<boolean> {
 
-    // si c'est un support, on autorise l'accès à la page
-    if (this.authService.isSupport()) {
-      // on vérifie que l'id support est != -1, et si oui on autorise l'accès au support qui gère ce ticket
+    let id = route.params['id'];
 
-      if (this.authService.getId() === "-1") {
-        return of(true);
-      }
-      else{
-        // regarder si idsupport == id de l'utilisateur de la session
-        return this.ticketService.verifySupport(route.params['id'], this.authService.getId() as string).pipe(
-          map(isAuthorized => {
-            if (!isAuthorized) {
-              this.toastr.error('Vous n\'êtes pas autorisé à accéder à cette page.', "Erreur");
-              this.router.navigate(['/']);
-              return false;
-            }
-            return true;
-          }),
-          catchError(error => {
-            this.toastr.error('Une erreur est survenue.', "Erreur");
-            this.router.navigate(['/']);
-            return of(false);
-          })        
-        );
-      }
-
-      return of(true);
-    }
     // on vérifie que l'id est un nombre
-    const idPage = route.params['id'];
-    if (!this.isValidId(idPage)) {
+    if (!this.isValidId(id)) {
       this.toastr.error('Identifiant de ticket invalide.', "Erreur");
       this.router.navigate(['/']);
       return of(false);
     }
-    const idUser = this.authService.getId() as string;
-    // on vérifie que l'utilisateur est bien le propriétaire du ticket
-    return this.ticketService.verifyTicket(idPage, idUser).pipe(
-      map(isAuthorized => {
-        if (!isAuthorized) {
-          this.toastr.error('Vous n\'êtes pas autorisé à accéder à cette page.', "Erreur");
-          this.router.navigate(['/']);
-          return false;
+
+    // on récupère le ticket et on vérifie les autorisations
+    return this.ticketService.getTicketById(id).pipe(
+      switchMap((ticket: Ticket) => {
+        if (this.authService.isSupport()) {
+          if (Number(ticket.idsupport) === -1 || ticket.idsupport === this.authService.getId()) {
+            return of(true);
+          }
+          else {
+            this.toastr.error('Vous n\'êtes pas autorisé à accéder à cette page.', "Erreur");
+            this.router.navigate(['/']);
+            return of(false);
+          }
+        } else {
+          const idUser = this.authService.getId() as string;
+          if (ticket.iduser === idUser) {
+            return of(true);
+          } else {
+            this.toastr.error('Vous n\'êtes pas autorisé à accéder à cette page.', "Erreur");
+            this.router.navigate(['/']);
+            return of(false);
+          }
         }
-        return true;
       }),
-      catchError(error => {
+      catchError((error: any) => {
         this.toastr.error('Une erreur est survenue.', "Erreur");
         this.router.navigate(['/']);
         return of(false);

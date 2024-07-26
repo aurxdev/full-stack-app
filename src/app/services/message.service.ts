@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-
+import { Observable, of, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Message } from "../models/message";
 
@@ -24,26 +23,35 @@ import { Message } from "../models/message";
           return newMessage;
         }),
         catchError(error => {
-          console.error(error);
+          this.messageUpdate.next(null);
           return of(null);
         })
       );
     }  
 
-    getAllMessages(): Observable<any[]>{
-      return this.http.get<any[]>(`${this.url}/messages`);
+    getAllMessages(): Observable<Message[]>{
+      return this.http.get<Message[]>(`${this.url}/messages`);
     }
 
-    getMessageById(id: string | null): Observable<any>{
-      return this.http.get<any>(`${this.url}/messages/${id}`);
+    getMessageById(id: string | null): Observable<Message>{
+      return this.http.get<Message>(`${this.url}/messages/${id}`);
     }
 
     getMessageByUserId(id: string): Observable<Message[]>{
       return this.http.get<any>(`${this.url}/messages/users/${id}`);
     }
 
-    getMessageByTicketId(id: string): Observable<any>{
-      return this.http.get<Message[]>(`${this.url}/messages/tickets/${id}`);
+    getMessageByTicketId(id: string): Observable<any> {
+      return this.http.get<Message[]>(`${this.url}/messages/tickets/${id}`).pipe(
+        catchError((error) => {
+          if (error.status === 404) {
+            console.error('Aucun message trouvé pour le ticket', id);
+            return of([]); 
+          } else {
+            return throwError(() => new Error(error.message)); 
+          }
+        })
+      );
     }
 
     emitMessages(id: string): void {
@@ -52,7 +60,7 @@ import { Message } from "../models/message";
           this.messageUpdate.next(messages);
         },
         error: (error) => {
-          console.error(error);
+          this.messageUpdate.next(null);
         }
       });
     }

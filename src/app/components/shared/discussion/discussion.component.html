@@ -1,4 +1,7 @@
 <div class="messages-container">
+    <div *ngIf="this.messages.length === 0">
+        <h3>Aucun message pour l'instant.</h3>
+    </div>
     <div *ngFor="let message of this.messages">
         <app-message 
         [contenu]="message.contenu ?? ''" 

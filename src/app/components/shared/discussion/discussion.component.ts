@@ -6,7 +6,7 @@ import { Message } from '../../../models/message';
 import { MessageService } from '../../../services/message.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
-import { interval } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-discussion',
@@ -24,35 +24,45 @@ export class DiscussionComponent implements OnChanges, AfterViewChecked {
   messageService: MessageService = inject(MessageService);
   authService: AuthService = inject(AuthService);
   private interval: any;
-
+  private sub: any;
   @ViewChild('scrollAnchor') private scrollAnchor!: ElementRef;
+
+
+  ngOnInit(): void {
+    if (this.idTicket) {
+      this.loadMessages(this.idTicket);
+      this.startAutoReload();
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['idTicket'] && changes['idTicket'].currentValue) {
       this.loadMessages(changes['idTicket'].currentValue);
       this.startAutoReload();
     }
-    
   }
 
   loadMessages(idTicket: string): void {
+    this.messages.length = 0;
     this.messageService.emitMessages(idTicket);
-    this.messageService.messageUpdate$.subscribe(messages => {
-      if (messages) {
+    this.sub = this.messageService.messageUpdate$.subscribe(messages => {
+      if (Array.isArray(messages)) {
         this.messages.push(...messages);
+      } else {
+        this.messages = [];
       }
     });
   }
 
   ngAfterViewChecked() {
-    this.scrollAnchor.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    //this.scrollAnchor.nativeElement.scrollIntoView({ behavior: 'smooth' });
   }
-  
+
   startAutoReload(): void {
-    this.stopAutoReload(); // Arrêter tout intervalle existant avant d'en démarrer un nouveau
+    this.stopAutoReload();
     this.interval = setInterval(() => {
       location.reload();
-    }, 60000); 
+    }, 60000);
   }
 
   stopAutoReload(): void {
@@ -62,8 +72,10 @@ export class DiscussionComponent implements OnChanges, AfterViewChecked {
   }
 
   ngOnDestroy(): void {
-    this.stopAutoReload(); // Nettoyer l'intervalle lorsque le composant est détruit
+    this.stopAutoReload();
+    this.messages.length = 0;
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
-
-
 }

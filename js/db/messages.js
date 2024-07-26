@@ -22,7 +22,7 @@ const getMessageByTicket = (req, res) => {
         console.error('Error executing query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
     } else if (result.rows.length === 0) {
-        res.status(404).json({ error: 'Message non trouvé.' });
+        res.status(200).json({ error: 'Message non trouvé.' });
     } else {
         res.json(result.rows);
     }

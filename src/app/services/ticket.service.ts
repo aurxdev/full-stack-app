@@ -27,21 +27,23 @@ import { TicketEtat } from "../models/ticket";
       return this.http.get<any>(`${this.url}/tickets/users/${id}`);
     }
 
-    createTicket(ticket: Ticket): Observable<any>{
-      return this.http.post<any>(`${this.url}/create-ticket`, ticket);
+    createTicket(ticket: Ticket): Observable<Ticket>{
+      return this.http.post<Ticket>(`${this.url}/create-ticket`, ticket);
     }
 
+    // vérifie si le ticket à l'id donné a le support avec l'id donné
     verifySupport(id:string, idSupport: string): Observable<boolean> {
       return this.getTicketById(id).pipe(
         map(data => data.idsupport === idSupport),
-        catchError(() => of(false)) // false en cas d'erreur
+        catchError(() => of(false)) 
       );
     }
 
+    // vérifie si le ticket à l'id donné a le user avec l'id donné
     verifyTicket(ticketId: string, userId: string): Observable<boolean> {
       return this.getTicketById(ticketId).pipe(
         map(data => data.iduser === userId),
-        catchError(() => of(false)) // false en cas d'erreur
+        catchError(() => of(false)) 
       );
     }
 
