@@ -3,7 +3,7 @@
         <h1>Bon retour parmi nous, <span class="has-text-primary">{{ user.username }}</span> !</h1>
         <h2>Votre espace de suivi des tickets</h2>
         <hr/>
-        <div *ngIf="!this.noTicket; else noTicketMessage">
+        <div *ngIf="this.tickets.length > 0; else noTicketMessage">
             <table class="table is-fullwidth">
                 <thead>
                     <tr>

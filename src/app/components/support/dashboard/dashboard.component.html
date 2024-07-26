@@ -1,0 +1,13 @@
+<div>
+    <form (ngSubmit)="filterTickets()">
+      <label for="startDate">Date de début:</label>
+      <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" required>
+      
+      <label for="endDate">Date de fin:</label>
+      <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" required>
+      
+      <button type="submit">Filtrer</button>
+    </form>
+    
+    <canvas #ticketChart></canvas>
+  </div>

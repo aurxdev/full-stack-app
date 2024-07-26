@@ -34,10 +34,19 @@
             Inscription
           </a>
         </div>
-
-
-        <a *ngIf="authService.isLoggedIn()" class="navbar-item" [routerLink]="['/profil']" routerLinkActive="is-active">Profil</a>
-        <a *ngIf="authService.isLoggedIn()" class="navbar-item" (click)="this.logout()">Déconnexion</a>
+        <div class="navbar-item" *ngIf="authService.isSupport()">
+          <a class="button is-primary" [routerLink]="['/dashboard']" routerLinkActive="is-active">
+            Dashboard
+          </a>
+        </div>
+        <div class="navbar-item">
+          <a *ngIf="authService.isLoggedIn()" class="button" [routerLink]="['/profil']" routerLinkActive="is-active">Profil</a>
+        </div>
+        <div class="navbar-item">
+          <a *ngIf="authService.isLoggedIn()" class="button" (click)="this.logout()">
+            Déconnexion
+          </a>
+        </div>
       </div>
     </div>
   </nav>

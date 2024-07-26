@@ -15,6 +15,10 @@ import { TicketEtat } from "../models/ticket";
     private url = 'http://localhost:3000/api';
     constructor(private http: HttpClient){}
 
+    getTickets(): Observable<Ticket[]>{
+        return this.http.get<Ticket[]>(`${this.url}/tickets`);
+    }
+
     getAllTickets(id: string | null): Observable<Ticket[]>{
         return this.http.get<Ticket[]>(`${this.url}/tickets/${id}`);
     }

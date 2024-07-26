@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { MessageService } from '../../../services/message.service';
 import { Message } from '../../../models/message';
+import { ViewChild } from '@angular/core';
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-form-message',
@@ -19,6 +21,7 @@ export class FormMessageComponent {
     message: new FormControl('', Validators.required),
   });
   disabled: boolean = false;
+  @ViewChild('scrollAnchor') private scrollAnchor!: ElementRef;
 
   constructor(private toastr: ToastrService, private auth: AuthService, public message: MessageService) { }
 
@@ -44,6 +47,7 @@ export class FormMessageComponent {
           this.toastr.success('Message envoyé avec succès.','Succès',{closeButton:true, positionClass: 'toast-top-right'});
           this.messageForm.reset();
           this.disableForm();
+          this.scrollAnchor.nativeElement.scrollIntoView({ behavior: 'smooth' });
 
         },
         error: (error) => {

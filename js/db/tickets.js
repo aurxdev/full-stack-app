@@ -2,7 +2,19 @@ const pool = require('./db');
 
 /* API ENDPOINTS */
 
-// renvoie tous les tickets
+const getAllTickets = (req, res) => {
+    pool.query('SELECT * FROM public.tickets ORDER BY date DESC', (err, result) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        res.json(result.rows);
+      }
+    });
+}
+
+
+// renvoie tous les tickets pour un support 
 const getTickets = (req, res) => {
   const id = req.params.id;
     pool.query('SELECT * FROM public.tickets WHERE etat = $1 OR idsupport = $2 ORDER BY date DESC' , ['0',id], (err, result) => {
@@ -85,6 +97,7 @@ const updateTicketEtat = async (req, res) => {
 }
 
 module.exports = {
+    getAllTickets,
     getTickets,
     getTicketById,
     getTicketByUserId,

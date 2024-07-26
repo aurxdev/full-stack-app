@@ -11,6 +11,8 @@ import { FormTicketComponent } from './components/form/form-ticket/form-ticket.c
 import { DetailTicketComponent } from './components/shared/detail-ticket/detail-ticket.component';
 import { TicketGuard } from './shared/ticket.guard';
 import { tick } from '@angular/core/testing';
+import { DashboardComponent } from './components/support/dashboard/dashboard.component';
+import { SupportGuard } from './shared/support.guard';
 
 export const routes: Routes = [
     {
@@ -52,6 +54,11 @@ export const routes: Routes = [
         component: DetailTicketComponent,
         title: 'Détail du ticket',
         canActivate: [NotAuthGuard,TicketGuard],
+    },
+    {
+        path:'dashboard',
+        component: DashboardComponent,
+        canActivate: [NotAuthGuard, SupportGuard],
     },
     {
         path:'**',

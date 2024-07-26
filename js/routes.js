@@ -14,8 +14,10 @@ router.get('/api/users/:id', authenticateJwt, users.getUserById);
 router.post('/api/register', users.register);
 router.post('/api/login', users.login);
 
+
 // TICKETS
-router.get('/api/tickets/:id', authenticateJwt, tickets.getTickets);
+router.get('/api/tickets', authenticateJwt, tickets.getAllTickets);
+router.get('/api/tickets/:id', authenticateJwt, tickets.getTickets);// nom de route ambiguë
 router.get('/api/ticket/:id', authenticateJwt, tickets.getTicketById);
 router.get('/api/tickets/users/:id', authenticateJwt, tickets.getTicketByUserId);
 router.post('/api/create-ticket', authenticateJwt, tickets.createTicket);
