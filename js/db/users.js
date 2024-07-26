@@ -91,10 +91,10 @@ const login = async (req, res) => {
       }
   
       const user = result.rows[0];
-      console.log(user);
+      // console.log(user);
       const isMatch = await comparePassword(mdp, user.mdp);
       if (isMatch) {
-        const token = generateJwtToken({ id: user.id, username: user.nom, support: user.issupport }); 
+        const token = generateJwtToken({ id: user.id, username: user.nom, support: user.issupport });
         return res.json({ success: true, message: "Authentification réussie!", token: token });
       } else {
         return res.status(401).json({ error: 'Mot de passe ne correspond pas.' });

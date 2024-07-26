@@ -35,6 +35,7 @@ export class ListeComponent implements OnInit {
     }
     this.user = this.auth.getUser();
     let support = this.auth.isSupport();
+
     // si c'est un support, on affiche tous les tickets
     if(support){
       this.ticketService.getAllTickets(this.user.id).subscribe({

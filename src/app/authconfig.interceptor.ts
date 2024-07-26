@@ -1,19 +1,16 @@
-import { Injectable } from "@angular/core";
-import { HttpInterceptor, HttpRequest, HttpHandler } from "@angular/common/http";
-import { AuthService } from "./services/auth.service";
+import { HttpInterceptorFn } from '@angular/common/http';
+import { AuthService } from './services/auth.service';
+import { inject } from '@angular/core';
 
-// ceci nous permet d'injecter le jeton JWT dans l'en-tête de chaque requête HTTP sortantes
+export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
+    let authService : AuthService = inject(AuthService);
+    const authToken = authService.getToken();
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-    constructor(private authService: AuthService) { }
-    intercept(req: HttpRequest<any>, next: HttpHandler) {
-        const authToken = this.authService.getToken();
-        req = req.clone({
-            setHeaders: {
-                Authorization: "Bearer " + authToken
-            }
-        });
-        return next.handle(req);
+    const authReq = req.clone({
+    setHeaders: {
+        Authorization: `Bearer ${authToken}`
     }
-}
+    });
+
+    return next(authReq);
+};
