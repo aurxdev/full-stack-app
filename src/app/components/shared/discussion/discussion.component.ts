@@ -24,14 +24,13 @@ export class DiscussionComponent implements OnChanges, OnDestroy {
   authService: AuthService = inject(AuthService);
   private interval: any;
   private sub: Subscription = new Subscription();
-  private messagesLoaded: boolean = false; 
+  private messagesLoaded: boolean = false;
  
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['idTicket'] && changes['idTicket'].currentValue) {
       this.messages = [];
       this.messagesLoaded = false;
       this.loadMessages(changes['idTicket'].currentValue);
-      this.startAutoReload();
     }
   }
 
@@ -48,22 +47,7 @@ export class DiscussionComponent implements OnChanges, OnDestroy {
     this.messageService.emitMessages(idTicket);
   }
 
-
-  startAutoReload(): void {
-    this.stopAutoReload();
-    this.interval = setInterval(() => {
-      location.reload();
-    }, 60000);
-  }
-
-  stopAutoReload(): void {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
-  }
-
   ngOnDestroy(): void {
-    this.stopAutoReload();
     this.messages = [];
     this.sub.unsubscribe();
   }
