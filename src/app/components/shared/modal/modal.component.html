@@ -8,7 +8,7 @@
         <p>Vous serez en charge de ce ticket.</p>
         <hr/>
         <div class="buttons">
-            <a class="button is-primary" [routerLink]="['/ticket', this.ticket?.id]" (click)="subscribeTicket(this.ticket)">Confirmer</a>
+            <a class="button is-primary" (click)="subscribeTicket(this.ticket)">Confirmer</a>
             <a class="button is-danger" (click)="this.closeModal()">Annuler</a>
           </div>
       </ng-container>
@@ -19,7 +19,7 @@
         <p>Cette action est irréversible.</p>
         <hr/>
         <div class="buttons">
-            <a class="button is-primary" [routerLink]="['/ticket', this.ticket?.id]" (click)="closeTicket(this.ticket)">Confirmer</a>
+            <a class="button is-primary" (click)="closeTicket(this.ticket)">Confirmer</a>
             <a class="button is-danger" (click)="this.closeModal()">Annuler</a>
         </div>
       </ng-container>

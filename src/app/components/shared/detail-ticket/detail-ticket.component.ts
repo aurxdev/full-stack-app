@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Ticket } from '../../../models/ticket';
 import { TicketService } from '../../../services/ticket.service';
@@ -11,6 +11,8 @@ import { DiscussionComponent } from '../discussion/discussion.component';
 import { ModalComponent } from '../modal/modal.component';
 import { AuthService } from '../../../services/auth.service';
 import { TicketEtat } from '../../../models/ticket';
+import { Socket } from 'ngx-socket-io';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detail-ticket',
@@ -19,21 +21,19 @@ import { TicketEtat } from '../../../models/ticket';
   templateUrl: './detail-ticket.component.html',
   styleUrl: './detail-ticket.component.css'
 })
-export class DetailTicketComponent {
+export class DetailTicketComponent implements OnDestroy {
   route: ActivatedRoute = inject(ActivatedRoute);
   ticketService: TicketService = inject(TicketService);
   authService: AuthService = inject(AuthService);
   ticket: Ticket | undefined;
   ticketEtat = TicketEtat;
 
+  private socket: Socket = inject(Socket);
+  private subscriptions: Subscription = new Subscription();
+
   constructor() {
     const idTicket = this.route.snapshot.params['id'];
     this.loadTicket(idTicket);
-    this.ticketService.ticketUpdate$.subscribe( updatedTicket => {
-      if (updatedTicket) {
-        this.ticket = updatedTicket;
-      }
-    });
     }
 
     loadTicket(idTicket: string): void {
@@ -45,6 +45,20 @@ export class DetailTicketComponent {
           console.error(error);
         }
       });
+
+      // on écoute les mises à jour de ticket
+      this.subscriptions.add(
+        this.socket.fromEvent<Ticket>('updatedTicket').subscribe((updatedTicket: Ticket) => {
+          if (updatedTicket.id === this.ticket?.id) {
+            this.ticket = updatedTicket;
+          }
+        })
+      );
+
+    }
+
+    ngOnDestroy(): void {
+      this.subscriptions.unsubscribe();
     }
   }
 

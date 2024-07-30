@@ -67,8 +67,7 @@ export class ChartComponent implements OnChanges {
 
   private transformData(): { labels: string[], data: number[] } {
     let counts: { [key: string]: number } = {};
-    console.log(this.filtre);
-    console.log(this.chartType);
+
     if (this.filtre === 'date') {
       counts = this.dataTransformService.getDate(this.data);
     } else if (this.filtre === 'categorie') {

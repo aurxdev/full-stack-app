@@ -53,6 +53,7 @@ export class DashboardComponent implements OnInit {
   initializeForms(): void{
     const today = new Date();
     const before = new Date();
+    today.setDate(today.getDate() + 5);
     before.setDate(today.getDate() - 30);
 
     this.dateForm.setValue({
@@ -89,14 +90,15 @@ export class DashboardComponent implements OnInit {
 
   filterTicketsByCategory(): void {
     this.categoryForm.markAllAsTouched();
-    const categorie = this.categoryForm.value.categorie;
+    let categorie = this.categoryForm.value.categorie;
     if(this.categoryForm.invalid) {
       return;
     }
     // on vérifie que la catégorie est valide
+    console.log(categorie);
     const validCategories = new Set(['doughnut', 'bar']);
     if(!validCategories.has(categorie)) {
-      return;
+      categorie = 'bar';
     }
     this.filteredTickets = this.tickets;
     this.chartType = categorie;

@@ -10,7 +10,6 @@ import { TicketEtat } from "../models/ticket";
   })
   export class TicketService {
     private ticketUpdate = new BehaviorSubject<Ticket | null>(null);
-    ticketUpdate$ = this.ticketUpdate.asObservable();
 
     private url = 'http://localhost:3000/api';
     constructor(private http: HttpClient){}

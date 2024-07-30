@@ -37,7 +37,7 @@
 
   <form [formGroup]="categoryForm" *ngIf="activeTab === 'categorie' || activeTab === 'etat'">
     <div class="field">
-      <label class="label" for="categorie">Catégorie:</label>
+      <label class="label" for="categorie">Type de graphique:</label>
       <div class="control">
         <div class="select">
             <select id="categorie" name="categorie" formControlName="categorie" (change)="filterTicketsByCategory()">
