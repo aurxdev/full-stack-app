@@ -31,6 +31,7 @@
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
+              "src/navbar.js"
             ]
           },
           "configurations": {

@@ -3,16 +3,16 @@ import { ListeComponent } from './components/shared/liste/liste.component';
 import { LoginComponent } from './components/form/login/login.component';
 import { RegistrationComponent } from './components/form/registration/registration.component';
 
-import { AuthGuard } from './shared/auth.guard';
-import { NotAuthGuard } from './shared/not-auth.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/not-auth.guard';
 
 import { ProfileComponent } from './components/shared/profile/profile.component';
 import { FormTicketComponent } from './components/form/form-ticket/form-ticket.component';
 import { DetailTicketComponent } from './components/shared/detail-ticket/detail-ticket.component';
-import { TicketGuard } from './shared/ticket.guard';
+import { TicketGuard } from './guards/ticket.guard';
 import { tick } from '@angular/core/testing';
 import { DashboardComponent } from './components/support/dashboard/dashboard.component';
-import { SupportGuard } from './shared/support.guard';
+import { SupportGuard } from './guards/support.guard';
 
 export const routes: Routes = [
     {

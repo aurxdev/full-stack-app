@@ -1,6 +1,5 @@
 const { Pool } = require('pg');
 
-/*
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
@@ -8,15 +7,7 @@ const pool = new Pool({
   password: 'root',
   port: 5432,
 });
-*/
 
-const pool = new Pool({
-  user: 'mad',
-  host: '10.0.1.21',
-  database: 'angular',
-  password: 'mad8888',
-  port: 5432,
-});
 
 /* CONNEXION À LA BASE DE DONNÉES POSTGRESQL */
 

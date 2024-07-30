@@ -3,7 +3,7 @@ const pool = require('./db');
 /* API ENDPOINTS */
 
 const getAllTickets = (req, res) => {
-    pool.query('SELECT * FROM public.tickets ORDER BY date DESC', (err, result) => {
+    pool.query('SELECT * FROM public.tickets ORDER BY id', (err, result) => {
       if (err) {
         console.error('Error executing query:', err);
         res.status(500).json({ error: 'Internal Server Error' });

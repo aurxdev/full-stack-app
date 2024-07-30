@@ -1,13 +1,78 @@
 <div>
-    <form (ngSubmit)="filterTickets()">
-      <label for="startDate">Date de début:</label>
-      <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" required>
-      
-      <label for="endDate">Date de fin:</label>
-      <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" required>
-      
-      <button type="submit">Filtrer</button>
-    </form>
-    
-    <canvas #ticketChart></canvas>
+  <h1>Dashboard</h1>
+  <h2>Nombre total de tickets: {{ this.nbTickets }}</h2>
+  <div class="tabs is-centered">
+    <ul>
+      <li [class.is-active]="activeTab === 'date'" (click)="setActiveTab('date');filterTickets();"><a>Filtrer par date</a></li>
+      <li [class.is-active]="activeTab === 'category'" (click)="setActiveTab('category')"><a>Filtrer par catégorie</a></li>
+      <li [class.is-active]="activeTab === 'etat'" (click)="setActiveTab('etat')"><a>Filtrer par état</a></li>
+    </ul>
   </div>
+
+  <form [formGroup]="dateForm" *ngIf="activeTab === 'date'" (ngSubmit)="filterTickets()">
+    <div class="field">
+      <label class="label" for="startDate">Date de début:</label>
+      <div class="control">
+        <input class="input" type="date" id="startDate" formControlName="startDate" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label" for="endDate">Date de fin:</label>
+      <div class="control">
+        <input class="input" type="date" id="endDate" formControlName="endDate" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <button type="submit" class="button is-primary mt-3">Filtrer</button>
+      </div>
+    </div>
+  </form>
+
+  <form [formGroup]="categoryForm" *ngIf="activeTab === 'category'" (ngSubmit)="filterTicketsByCategory()">
+    <div class="field">
+      <label class="label" for="category">Catégorie:</label>
+      <div class="control">
+        <div class="select">
+            <select id="categorie" name="categorie" formControlName="categorie">
+              <option value="" selected disabled>Sélectionner un type de graphique</option>
+              <option value="doughnut">Donuts</option>
+              <option value="bar">Bar</option>
+            </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <button type="submit" class="button is-primary mt-3">Filtrer</button>
+      </div>
+    </div>
+  </form>
+
+  <form [formGroup]="categoryForm" *ngIf="activeTab === 'etat'" (ngSubmit)="filterTicketsByCategory()">
+    <div class="field">
+      <label class="label" for="category">Catégorie:</label>
+      <div class="control">
+        <div class="select">
+            <select id="categorie" name="categorie" formControlName="categorie">
+              <option value="" selected disabled>Sélectionner un type de graphique</option>
+              <option value="doughnut">Donuts</option>
+              <option value="bar">Bar</option>
+            </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <button type="submit" class="button is-primary mt-3">Filtrer</button>
+      </div>
+    </div>
+  </form>
+
+
+  <app-chart [data]="filteredTickets" [chartType]="chartType"></app-chart>
+</div>

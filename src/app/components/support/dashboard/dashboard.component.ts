@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TicketService } from '../../../services/ticket.service';
 import { Ticket } from '../../../models/ticket';
-import { Chart } from 'chart.js';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChartComponent } from '../chart/chart.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ChartComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -17,61 +17,85 @@ export class DashboardComponent implements OnInit {
   filteredTickets: Ticket[] = [];
   startDate: string = '';
   endDate: string = '';
-  @ViewChild('ticketChart') ticketChart!: ElementRef;
+  dateForm: FormGroup;
+  categoryForm: FormGroup;
+  activeTab: string = 'date';
+  nbTickets: number = 0;
+  chartType: string = 'line';
 
-  constructor(public ticketService: TicketService) {}
+  constructor(public ticketService: TicketService) {
+    this.dateForm = new FormGroup({
+      startDate: new FormControl('', Validators.required),
+      endDate: new FormControl('', Validators.required)
+    });
+
+    this.categoryForm = new FormGroup({
+      categorie: new FormControl('', Validators.required)
+    });
+
+
+
+  }
 
   ngOnInit(): void {
+
+
+    const today = new Date();
+    const before = new Date();
+    before.setDate(today.getDate() - 30);
+
+    this.dateForm.setValue({
+      startDate: before.toISOString().split('T')[0],
+      endDate: today.toISOString().split('T')[0]
+    });
+
+
     this.ticketService.getTickets().subscribe({
       next: (tickets: Ticket[]) => {
         this.tickets = Array.isArray(tickets) ? tickets : [tickets];
+        this.nbTickets = this.tickets.length;
       },
       error: (error: any) => {
         console.error(error);
       }
     });
+    this.filterTickets();
+
+  }
+
+  setActiveTab(tab: string): void {
+    this.activeTab = tab;
   }
 
   filterTickets(): void {
-    const start = new Date(this.startDate);
-    const end = new Date(this.endDate);
+    this.dateForm.markAllAsTouched();
+    if(this.dateForm.invalid) {
+      return;
+    }
+    const start = new Date(this.dateForm.value.startDate);
+    const end = new Date(this.dateForm.value.endDate);
     this.filteredTickets = this.tickets.filter(ticket => {
       const ticketDate = new Date(ticket?.date as Date);
-      return ticketDate >= start && ticketDate <= end;
+      const localDate = new Date(ticketDate.getFullYear(), ticketDate.getMonth(), ticketDate.getDate());
+      return localDate >= start && localDate <= end;
     });
-    this.updateChart();
+    this.chartType = 'line';
   }
 
-  updateChart(): void {
-    const ctx = this.ticketChart.nativeElement.getContext('2d');
-    const dates = this.filteredTickets.map(ticket => new Date(ticket?.date as Date).toISOString().split('T')[0]);
-    const counts = dates.reduce((acc: { [key: string]: number }, date: string) => {
-      acc[date] = (acc[date] || 0) + 1;
-      return acc;
-    }, {});
-  
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: Object.keys(counts),
-        datasets: [{
-          label: 'Nombre de tickets',
-          data: Object.values(counts),
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          x: {
-            beginAtZero: true
-          },
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
+  filterTicketsByCategory(): void {
+    this.categoryForm.markAllAsTouched();
+    const categorie = this.categoryForm.value.categorie;
+    if(this.categoryForm.invalid) {
+      return;
+    }
+    const validCategories = new Set(['doughnut', 'bar']);
+    if(!validCategories.has(categorie)) {
+      return;
+    }
+    this.filteredTickets = this.tickets;
+    this.chartType = categorie;
   }
+
+
+
 }
