@@ -4,7 +4,7 @@
   <div class="tabs is-centered">
     <ul>
       <li [class.is-active]="activeTab === 'date'" (click)="setActiveTab('date');filterTickets();"><a>Filtrer par date</a></li>
-      <li [class.is-active]="activeTab === 'category'" (click)="setActiveTab('category')"><a>Filtrer par catégorie</a></li>
+      <li [class.is-active]="activeTab === 'categorie'" (click)="setActiveTab('categorie')"><a>Filtrer par catégorie</a></li>
       <li [class.is-active]="activeTab === 'etat'" (click)="setActiveTab('etat')"><a>Filtrer par état</a></li>
     </ul>
   </div>
@@ -31,12 +31,12 @@
     </div>
   </form>
 
-  <form [formGroup]="categoryForm" *ngIf="activeTab === 'category'" (ngSubmit)="filterTicketsByCategory()">
+  <form [formGroup]="categoryForm" *ngIf="activeTab === 'categorie' || activeTab === 'etat'">
     <div class="field">
-      <label class="label" for="category">Catégorie:</label>
+      <label class="label" for="categorie">Catégorie:</label>
       <div class="control">
         <div class="select">
-            <select id="categorie" name="categorie" formControlName="categorie">
+            <select id="categorie" name="categorie" formControlName="categorie" (change)="filterTicketsByCategory()">
               <option value="" selected disabled>Sélectionner un type de graphique</option>
               <option value="doughnut">Donuts</option>
               <option value="bar">Bar</option>
@@ -44,35 +44,6 @@
         </div>
       </div>
     </div>
-
-    <div class="field">
-      <div class="control">
-        <button type="submit" class="button is-primary mt-3">Filtrer</button>
-      </div>
-    </div>
   </form>
-
-  <form [formGroup]="categoryForm" *ngIf="activeTab === 'etat'" (ngSubmit)="filterTicketsByCategory()">
-    <div class="field">
-      <label class="label" for="category">Catégorie:</label>
-      <div class="control">
-        <div class="select">
-            <select id="categorie" name="categorie" formControlName="categorie">
-              <option value="" selected disabled>Sélectionner un type de graphique</option>
-              <option value="doughnut">Donuts</option>
-              <option value="bar">Bar</option>
-            </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="field">
-      <div class="control">
-        <button type="submit" class="button is-primary mt-3">Filtrer</button>
-      </div>
-    </div>
-  </form>
-
-
-  <app-chart [data]="filteredTickets" [chartType]="chartType"></app-chart>
+  <app-chart [data]="filteredTickets" [chartType]="chartType" [filtre]="activeTab"></app-chart>
 </div>

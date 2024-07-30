@@ -32,9 +32,6 @@ export class DashboardComponent implements OnInit {
     this.categoryForm = new FormGroup({
       categorie: new FormControl('', Validators.required)
     });
-
-
-
   }
 
   ngOnInit(): void {
@@ -54,17 +51,21 @@ export class DashboardComponent implements OnInit {
       next: (tickets: Ticket[]) => {
         this.tickets = Array.isArray(tickets) ? tickets : [tickets];
         this.nbTickets = this.tickets.length;
+        this.filterTickets();
       },
       error: (error: any) => {
         console.error(error);
       }
     });
-    this.filterTickets();
-
   }
 
   setActiveTab(tab: string): void {
     this.activeTab = tab;
+    if (tab == 'date') {
+      this.filterTickets();
+    } else {
+      this.filterTicketsByCategory();
+    }
   }
 
   filterTickets(): void {

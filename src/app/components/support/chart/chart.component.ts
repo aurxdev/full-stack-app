@@ -12,6 +12,7 @@ import { Ticket } from '../../../models/ticket';
 export class ChartComponent implements OnChanges {
   @Input() data: Ticket[] = [];
   @Input() chartType: any = 'line';
+  @Input() filtre: any = 'date';
   chart: Chart | undefined;
 
   @ViewChild('ticketChart') ticketChart!: ElementRef;
@@ -21,7 +22,7 @@ export class ChartComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['data'] || changes['chartType']) {
+    if (changes['data'] || changes['chartType'] || changes['filtre']) {
       this.updateChart();
     }
   }
@@ -65,27 +66,15 @@ export class ChartComponent implements OnChanges {
 
   private transformData(): { labels: string[], data: number[] } {
     let counts: { [key: string]: number } = {};
-
-    if (this.chartType === 'line') {
-      const dates = this.data.map(ticket => {
-        const ticketDate = new Date(ticket?.date as Date);
-        return ticketDate.toLocaleDateString('fr-FR', {
-          weekday: 'long',
-          day: 'numeric',
-          month: 'long'
-        });
-      });
-
-      counts = dates.reduce((acc: { [key: string]: number }, date: string) => {
-        acc[date] = (acc[date] || 0) + 1;
-        return acc;
-      }, {});
-    } else if (this.chartType === 'bar' || this.chartType === 'doughnut') {
-      const categories = this.data.map(ticket => ticket.categorie as string);
-      counts = categories.reduce((acc: { [key: string]: number }, categorie: string) => {
-        acc[categorie] = (acc[categorie] || 0) + 1;
-        return acc;
-      }, {});
+    console.log(this.filtre);
+    console.log(this.chartType);
+    if (this.filtre === 'date') {
+      counts = this.getDate();
+    } else if (this.filtre === 'categorie') {
+      counts = this.getCategory();
+    }
+    else if (this.filtre === 'etat'){
+      counts = this.getEtat();
     }
 
     return {
@@ -93,4 +82,42 @@ export class ChartComponent implements OnChanges {
       data: Object.values(counts)
     };
   }
+
+
+  private getDate() :  { [key: string]: number } {
+    const dates = this.data.map(ticket => {
+      const ticketDate = new Date(ticket?.date as Date);
+      return ticketDate.toLocaleDateString('fr-FR', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long'
+      });
+    });
+
+    return dates.reduce((acc: { [key: string]: number }, date: string) => {
+      acc[date] = (acc[date] || 0) + 1;
+      return acc;
+    }, {});
+  }
+
+  private getCategory() :  { [key: string]: number } {
+    const categories = this.data.map(ticket => ticket.categorie as string);
+
+    return categories.reduce((acc: { [key: string]: number }, categorie: string) => {
+      acc[categorie] = (acc[categorie] || 0) + 1;
+      return acc;
+    }, {});
+  }
+
+  private getEtat(): { [key: string]: number } {
+    const etats = this.data.map(ticket => ticket.etat as number);
+  
+    return etats.reduce((acc: { [key: string]: number }, etat: number) => {
+      const etatKey = etat.toString();
+      acc[etatKey] = (acc[etatKey] || 0) + 1;
+      return acc;
+    }, {});
+  }
+
+
 }
