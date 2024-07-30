@@ -20,7 +20,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
     return next(authReq).pipe(
         catchError((error: HttpErrorResponse) => {
             if (error.status === 401) {
-                toastr.error('Vous devez vous reconnecter pour continuer.', 'Session expirée');
+                toastr.warning('Vous devez vous reconnecter pour continuer.', 'Session expirée');
                 authService.logout();
                 router.navigate(['/login']);
             }

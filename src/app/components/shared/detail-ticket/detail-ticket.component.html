@@ -5,7 +5,7 @@
 <p>{{ ticket?.date | date:'le dd/MM/yyyy à HH:mm' }}</p>
 <p [ngClass]="(ticket?.etat | etat).class">{{ (ticket?.etat | etat).text }}</p>
 
-<div class="buttons mt-3 mb-3" (click)="modal.openModal(ticket!, 'close')"><a class="button is-danger">Fermer le ticket</a></div>
+<div class="buttons mt-3 mb-3" *ngIf="ticket?.etat == ticketEtat.EN_COURS" (click)="modal.openModal(ticket!, 'close')"><a class="button is-danger">Fermer le ticket</a></div>
 
 <h3>Votre message</h3>
 <hr/>

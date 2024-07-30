@@ -1,4 +1,6 @@
 const db = require('./db');
+const io = require('.././server');
+
 
 /* API ENDPOINTS */
 
@@ -22,7 +24,7 @@ const getMessageByTicket = (req, res) => {
         console.error('Error executing query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
     } else if (result.rows.length === 0) {
-        res.status(200).json({ error: 'Message non trouvé.' });
+        res.status(404).json({ error: 'Message non trouvé.' });
     } else {
         res.json(result.rows);
     }
@@ -31,15 +33,14 @@ const getMessageByTicket = (req, res) => {
 
 
 const createMessage = async (req, res) => {
-
     const { contenu, idticket, iduser } = req.body;
-  
     if (!contenu || !idticket || !iduser) {
-      return res.status(400).json({ error: 'Contenu, idTicket et idUser requis.' });
+        return res.status(400).json({ error: 'Contenu, idTicket et idUser requis.' });
     }
 
     try{
         const result = await db.query('INSERT INTO public.messages (idTicket, contenu, date, idUser) VALUES ($1, $2, $3, $4) RETURNING *', [idticket, contenu, new Date(), iduser]);
+        req.io.emit('newMessage', result.rows[0]);
         return res.json(result.rows[0]);
     }
     catch (err){

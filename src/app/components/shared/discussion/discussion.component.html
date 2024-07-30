@@ -3,6 +3,7 @@
         <h3>Aucun message pour l'instant.</h3>
     </div>
     <div *ngFor="let message of this.messages">
+
         <app-message 
         [contenu]="message.contenu ?? ''" 
         [nom]="message.iduser ?? ''"

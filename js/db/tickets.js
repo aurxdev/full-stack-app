@@ -70,6 +70,7 @@ const createTicket = async (req, res) => {
 
     try{
         const result = await pool.query('INSERT INTO public.tickets (nom, categorie, description, date, etat, idUser, idSupport) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *', [nom, categorie, description, new Date(), 0, iduser, -1]);
+        req.io.emit('newTicket', result.rows[0]);
         return res.json(result.rows[0]);
     }
     catch (err){
@@ -89,6 +90,7 @@ const updateTicketEtat = async (req, res) => {
 
     try {
         const result = await pool.query('UPDATE public.tickets SET etat = $1, idsupport = $2 WHERE id = $3 RETURNING *', [etat, idsupport, id]);
+        req.io.emit('updatedTicket', result.rows[0]);
         return res.json(result.rows[0]);
     } catch (err) {
         console.error('Erreur lors de l\'exécution!', err);

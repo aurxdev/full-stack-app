@@ -47,7 +47,7 @@ export class FormMessageComponent {
           this.toastr.success('Message envoyé avec succès.','Succès',{closeButton:true, positionClass: 'toast-top-right'});
           this.messageForm.reset();
           this.disableForm();
-          this.scrollAnchor.nativeElement.scrollIntoView({ behavior: 'smooth' });
+
 
         },
         error: (error) => {

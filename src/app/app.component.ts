@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
 
   logout(): void{
     this.authService.logout();
-    this.toastr.success('Vous avez été déconnecté avec succès');
+    this.toastr.success('Vous avez été déconnecté avec succès.', 'Déconnexion');
     this.router.navigate(['/']);
   }
 }

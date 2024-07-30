@@ -32,6 +32,7 @@ export class AuthService {
     localStorage.removeItem('accessToken');
     this.decodedToken = null;
   }
+  
 
   isLoggedIn(): boolean{
     return this.getToken() !== null;
