@@ -25,7 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Use cors middleware for Express
+// cors middleware
 app.use(cors({
   origin: 'http://localhost:4200',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -41,11 +41,6 @@ io.on('connection', (socket) => {
   
   socket.on('disconnect', () => {
     console.log('user disconnected');
-  });
-
-  // recevoir un nouveau message et le diffuser à tous les clients connectés
-  socket.on('newMessage', (message) => {
-    io.emit('message', message);
   });
 });
 
