@@ -46,10 +46,10 @@ export class ListeComponent implements OnInit, OnDestroy {
     else {
       this.getItems();
     }
-    this.updateTicket();
+    this.updateTickets();
   }
 
-  updateTicket(): void{
+  updateTickets(): void{
       // on écoute les nouveaux tickets
       this.subscriptions.push(
         this.socket.fromEvent('newTicket').subscribe((ticket: any) => {

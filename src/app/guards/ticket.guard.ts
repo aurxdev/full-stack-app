@@ -7,6 +7,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Ticket } from '../models/ticket';
 
+// garde qui vérifie si l'utilisateur est autorisé à accéder à un ticket
+
 @Injectable({
   providedIn: 'root'
 })

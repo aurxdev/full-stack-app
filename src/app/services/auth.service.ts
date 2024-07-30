@@ -14,7 +14,6 @@ interface Token extends JwtPayload{
 export class AuthService {
   private decodedToken: Token | null = null;
 
-  // to-do , faire le champ décodé token dans une variable, au lieu de le faire à chaque fois dans la fonction
   constructor() { 
     this.updateDecodedToken();
   }

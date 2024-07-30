@@ -33,7 +33,7 @@ export class MessageService {
     return this.http.get<any>(`${this.url}/messages/users/${id}`);
   }
 
-  getMessageByTicketId(id: string): Observable<any> {
+  getMessageByTicketId(id: string): Observable<Message[]> {
     return this.http.get<Message[]>(`${this.url}/messages/tickets/${id}`);
   }
 

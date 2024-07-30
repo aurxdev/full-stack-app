@@ -20,6 +20,6 @@ export class ProfileComponent {
     userService.getUserById(this.user.id).subscribe((data) => {
       this.informations = data
       });
-   }
+  }
 
 }
