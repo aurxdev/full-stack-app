@@ -42,8 +42,6 @@ export class DiscussionComponent implements OnChanges, OnDestroy {
     this.messageService.getMessageByTicketId(idTicket).subscribe({
       next: (data: any) => {
         this.messages = Array.isArray(data) ? data : [data];
-        console.log('Messages chargés', this.messages);
-        this.scrollToAnchor();
       },
       error: (error: any) => {
         if (error.status !== 404) {

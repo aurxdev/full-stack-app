@@ -27,7 +27,6 @@ export class DetailTicketComponent implements OnDestroy {
   authService: AuthService = inject(AuthService);
   ticket: Ticket | undefined;
   ticketEtat = TicketEtat;
-
   private socket: Socket = inject(Socket);
   private subscriptions: Subscription = new Subscription();
 

@@ -21,7 +21,6 @@ export class FormMessageComponent {
     message: new FormControl('', Validators.required),
   });
   disabled: boolean = false;
-  @ViewChild('scrollAnchor') private scrollAnchor!: ElementRef;
 
   constructor(private toastr: ToastrService, private auth: AuthService, public message: MessageService) { }
 

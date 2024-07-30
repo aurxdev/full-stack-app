@@ -63,7 +63,6 @@ export class DashboardComponent implements OnInit {
 
   }
 
-
   setActiveTab(tab: string): void {
     this.activeTab = tab;
     if (tab == 'date') {
@@ -74,36 +73,15 @@ export class DashboardComponent implements OnInit {
   }
 
   filterTickets(): void {
-    this.dateForm.markAllAsTouched();
-    if(this.dateForm.invalid) {
-      return;
-    }
-    const start = new Date(this.dateForm.value.startDate);
-    const end = new Date(this.dateForm.value.endDate);
-    this.filteredTickets = this.tickets.filter(ticket => {
-      const ticketDate = new Date(ticket?.date as Date);
-      const localDate = new Date(ticketDate.getFullYear(), ticketDate.getMonth(), ticketDate.getDate());
-      return localDate >= start && localDate <= end;
-    });
+    this.filteredTickets = this.ticketService.filterTickets(this.tickets, this.dateForm);
     this.chartType = 'line';
   }
 
   filterTicketsByCategory(): void {
-    this.categoryForm.markAllAsTouched();
-    let categorie = this.categoryForm.value.categorie;
-    if(this.categoryForm.invalid) {
-      return;
-    }
-    // on vérifie que la catégorie est valide
-    console.log(categorie);
-    const validCategories = new Set(['doughnut', 'bar']);
-    if(!validCategories.has(categorie)) {
-      categorie = 'bar';
-    }
-    this.filteredTickets = this.tickets;
-    this.chartType = categorie;
+    const result = this.ticketService.filterTicketsByCategory(this.tickets, this.categoryForm);
+    this.filteredTickets = result.filteredTickets;
+    this.chartType = result.chartType;
   }
-
 
 
 }

@@ -4,6 +4,7 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { Ticket } from "../models/ticket";
 import { catchError, map } from 'rxjs/operators';
 import { TicketEtat } from "../models/ticket";
+import { FormGroup } from "@angular/forms";
 
 @Injectable({
     providedIn: 'root'
@@ -62,6 +63,33 @@ import { TicketEtat } from "../models/ticket";
         });
     }
 
+    filterTickets(tickets: Ticket[], dateForm: FormGroup): Ticket[] {
+      dateForm.markAllAsTouched();
+      if (dateForm.invalid) {
+        return [];
+      }
+      const start = new Date(dateForm.value.startDate);
+      const end = new Date(dateForm.value.endDate);
+      return tickets.filter(ticket => {
+        const ticketDate = new Date(ticket?.date as Date);
+        const localDate = new Date(ticketDate.getFullYear(), ticketDate.getMonth(), ticketDate.getDate());
+        return localDate >= start && localDate <= end;
+      });
+    }
+  
+    filterTicketsByCategory(tickets: Ticket[], categoryForm: FormGroup): { filteredTickets: Ticket[], chartType: string } {
+      categoryForm.markAllAsTouched();
+      let categorie = categoryForm.value.categorie;
+      if (categoryForm.invalid) {
+        return { filteredTickets: tickets, chartType: 'bar' };
+      }
+      const validCategories = new Set(['doughnut', 'bar']);
+      if (!validCategories.has(categorie)) {
+        categorie = 'bar';
+      }
+      return { filteredTickets: tickets, chartType: categorie };
+    }
+}
     /*
     updateTicket(ticket: Ticket): Observable<any>{
       return this.http.put<any>(`${this.url}/tickets/${ticket._id}`, ticket);
@@ -75,4 +103,3 @@ import { TicketEtat } from "../models/ticket";
 
 
 
-}

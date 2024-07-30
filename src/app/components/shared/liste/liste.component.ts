@@ -29,47 +29,54 @@ export class ListeComponent implements OnInit, OnDestroy {
   authService: AuthService = inject(AuthService);
   ticketEtat = TicketEtat;
 
-  constructor(private http: HttpClient, private auth: AuthService) { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    if (!this.auth.isLoggedIn()) {
+    if (!this.authService.isLoggedIn()) {
       return;
     }
-    this.user = this.auth.getUser();
-    let support = this.auth.isSupport();
+    this.user = this.authService.getUser();
+    let support = this.authService.isSupport();
 
     // si c'est un support, on affiche tous les tickets
     if (support) {
-      this.ticketService.getAllTickets(this.user.id).subscribe({
-        next: (data: any) => {
-          this.tickets = Array.isArray(data) ? data : [data];
-        },
-        error: (error: any) => {
-          this.noTicket = true;
-        }
-      });
+      this.getItemsSupport();
     }
     // sinon on affiche les tickets spécifiques à l'utilisateur
     else {
       this.getItems();
     }
+    this.updateTicket();
+  }
 
-    // on écoute les nouveaux tickets
-    this.subscriptions.push(
-      this.socket.fromEvent('newTicket').subscribe((ticket: any) => {
-        this.tickets.unshift(ticket);
-      })
-    );
+  updateTicket(): void{
+      // on écoute les nouveaux tickets
+      this.subscriptions.push(
+        this.socket.fromEvent('newTicket').subscribe((ticket: any) => {
+          this.tickets.unshift(ticket);
+        })
+      );
+  
+      // on écoute les tickets mis à jour
+      this.subscriptions.push(
+        this.socket.fromEvent('updatedTicket').subscribe((updatedTicket: any) => {
+          const index = this.tickets.findIndex(ticket => ticket.id === updatedTicket.id);
+          if (index !== -1) {
+            this.tickets[index] = updatedTicket;
+          }
+        })
+      );
+  }
 
-    // on écoute les tickets mis à jour
-    this.subscriptions.push(
-      this.socket.fromEvent('updatedTicket').subscribe((updatedTicket: any) => {
-        const index = this.tickets.findIndex(ticket => ticket.id === updatedTicket.id);
-        if (index !== -1) {
-          this.tickets[index] = updatedTicket;
-        }
-      })
-    );
+  getItemsSupport(): void {
+    this.ticketService.getAllTickets(this.user.id).subscribe({
+      next: (data: any) => {
+        this.tickets = Array.isArray(data) ? data : [data];
+      },
+      error: (error: any) => {
+        this.noTicket = true;
+      }
+    });
   }
 
   getItems(): void {
