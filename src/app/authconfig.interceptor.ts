@@ -24,6 +24,10 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
                 authService.logout();
                 router.navigate(['/login']);
             }
+            else if(error.status === 403) {
+                toastr.error('Vous n\'avez pas les droits pour accéder à cette ressource.', 'Accès refusé');
+                router.navigate(['/']);
+            }
             return throwError(() => new Error(error.message));
         })
     );

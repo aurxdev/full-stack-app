@@ -40,9 +40,9 @@ passport.use(
     },
     async (payload, done) => {
       try {
-        console.log('Payload:', payload); // Ajout de log
+        // console.log('Payload:', payload); // Ajout de log
         const user = await getUserById(payload.id);
-        console.log('User found in JwtStrategy:', user); // Aj
+        // console.log('User found in JwtStrategy:', user); // Aj
         return done(null, user);
       } catch (err) {
         return done(err, false);
@@ -53,9 +53,9 @@ passport.use(
 
 // middleware pour vérifier le token JWT de l'utilisateur
 const authenticateJwt = (req, res, next) => {
-  console.log('Authorization Header:', req.headers.authorization); // Ajout de log
+  // console.log('Authorization Header:', req.headers.authorization); // Ajout de log
   passport.authenticate('jwt', { session: false }, (err, user) => {
-    console.log(user); // Ajout de log
+    // console.log(user); // Ajout de log
     if (err) {
       console.error('Error authenticating JWT:', err); // Ajout de log
       res.status(500).json({ error: 'Internal Server Error' });
@@ -63,7 +63,7 @@ const authenticateJwt = (req, res, next) => {
       console.warn('No user found'); // Ajout de log
       res.status(401).json({ error: 'Unauthorized' });
     } else {
-      console.log('Authenticated user:', user); // Ajout de log
+      // console.log('Authenticated user:', user); // Ajout de log
       req.user = user;
       next();
     }
@@ -74,7 +74,7 @@ const authenticateJwt = (req, res, next) => {
 // middleware pour vérifier le rôle de l'utilisateur
 const roleMiddleware = () => {
   return (req, res, next) => {
-    if (!req.user || req.user.role !== true) {
+    if (!req.user || req.user.issupport !== true) {
       return res.status(403).json({ error: 'Accès refusé. Rôle insuffisant.' });
     }
     next();

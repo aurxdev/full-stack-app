@@ -3,7 +3,7 @@ const express = require('express');
 const users = require('./db/users');
 const tickets = require('./db/tickets');
 const messages = require('./db/messages');
-const { authenticateJwt } = require('./auth');
+const { authenticateJwt, roleMiddleware } = require('./auth');
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.post('/api/login', users.login);
 
 
 // TICKETS
-router.get('/api/tickets', authenticateJwt, tickets.getAllTickets);
+router.get('/api/tickets', authenticateJwt, roleMiddleware(), tickets.getAllTickets);
 router.get('/api/tickets/:id', authenticateJwt, tickets.getTickets);// nom de route ambiguë
 router.get('/api/ticket/:id', authenticateJwt, tickets.getTicketById);
 router.get('/api/tickets/users/:id', authenticateJwt, tickets.getTicketByUserId);

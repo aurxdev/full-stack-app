@@ -58,7 +58,7 @@ export const routes: Routes = [
     {
         path:'dashboard',
         component: DashboardComponent,
-        canActivate: [NotAuthGuard, SupportGuard],
+        canActivate: [NotAuthGuard],
     },
     {
         path:'**',
