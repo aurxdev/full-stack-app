@@ -35,8 +35,22 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initializeForms();
+    this.loadTickets();
+  }
 
+  loadTickets(): void {
+    this.ticketService.getTickets().subscribe({
+      next: (tickets: Ticket[]) => {
+        this.tickets = Array.isArray(tickets) ? tickets : [tickets];
+        this.nbTickets = this.tickets.length;
+        this.filterTickets();
+      }
+    });  
+    
+  }
 
+  initializeForms(): void{
     const today = new Date();
     const before = new Date();
     before.setDate(today.getDate() - 30);
@@ -46,18 +60,8 @@ export class DashboardComponent implements OnInit {
       endDate: today.toISOString().split('T')[0]
     });
 
-
-    this.ticketService.getTickets().subscribe({
-      next: (tickets: Ticket[]) => {
-        this.tickets = Array.isArray(tickets) ? tickets : [tickets];
-        this.nbTickets = this.tickets.length;
-        this.filterTickets();
-      },
-      error: (error: any) => {
-        console.error(error);
-      }
-    });
   }
+
 
   setActiveTab(tab: string): void {
     this.activeTab = tab;
@@ -89,6 +93,7 @@ export class DashboardComponent implements OnInit {
     if(this.categoryForm.invalid) {
       return;
     }
+    // on vérifie que la catégorie est valide
     const validCategories = new Set(['doughnut', 'bar']);
     if(!validCategories.has(categorie)) {
       return;
