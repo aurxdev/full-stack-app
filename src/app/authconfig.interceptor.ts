@@ -20,7 +20,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
     return next(authReq).pipe(
         catchError((error: HttpErrorResponse) => {
             if (error.status === 401) {
-                toastr.warning('Vous devez vous reconnecter pour continuer.', 'Session expirée');
+                toastr.warning(error.error.error);
                 authService.logout();
                 router.navigate(['/login']);
             }
@@ -28,6 +28,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
                 toastr.error('Vous n\'avez pas les droits pour accéder à cette ressource.', 'Accès refusé');
                 router.navigate(['/']);
             }
+
             return throwError(() => new Error(error.message));
         })
     );

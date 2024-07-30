@@ -87,7 +87,7 @@ const login = async (req, res) => {
     try {
       const result = await pool.query('SELECT * FROM public.users WHERE nom = $1', [name]);
       if (result.rows.length === 0) {
-        return res.status(404).json({ error: 'Utilisateur non trouvé.' });
+        return res.status(401).json({ error: 'Utilisateur non trouvé.' });
       }
   
       const user = result.rows[0];

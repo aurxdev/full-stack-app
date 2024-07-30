@@ -40,9 +40,7 @@ passport.use(
     },
     async (payload, done) => {
       try {
-        // console.log('Payload:', payload); // Ajout de log
         const user = await getUserById(payload.id);
-        // console.log('User found in JwtStrategy:', user); // Aj
         return done(null, user);
       } catch (err) {
         return done(err, false);
@@ -61,7 +59,7 @@ const authenticateJwt = (req, res, next) => {
       res.status(500).json({ error: 'Internal Server Error' });
     } else if (!user) {
       console.warn('No user found'); // Ajout de log
-      res.status(401).json({ error: 'Unauthorized' });
+      res.status(401).json({ error: 'Vous devez vous reconnecter pour continuer.' });
     } else {
       // console.log('Authenticated user:', user); // Ajout de log
       req.user = user;

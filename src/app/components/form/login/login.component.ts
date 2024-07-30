@@ -26,23 +26,19 @@ export class LoginComponent{
 
   submitForm(): void {
     this.loginForm.markAllAsTouched();
-    if(this.loginForm.valid && !this.auth.isLoggedIn()){
+    if (this.loginForm.valid && !this.auth.isLoggedIn()) {
       const user: User = {
         nom: this.loginForm.value.username,
         mdp: this.loginForm.value.password,
-      }
+      };
       this.userService.loginUser(user).subscribe({
         next: (res) => {
           this.auth.login(res);
-          this.toastr.success(res.message,'Succès',{closeButton:true, positionClass: 'toast-top-right'});
+          this.toastr.success(res.message, 'Succès', { closeButton: true, positionClass: 'toast-top-right' });
           this.router.navigate(['/']);
-        },
-        error: (error) => {
-          console.error('Erreur lors de l\'enregistrement: ', error)
-          this.toastr.error(error.error.error);
         }
-        })
-    } else{
+      });
+    } else {
       this.toastr.error('Veuillez remplir correctement le formulaire.');
     }
   }
