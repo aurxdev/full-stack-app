@@ -43,6 +43,9 @@ INSERT INTO users (nom, mdp, isSupport) VALUES ('user', 'user', false);
 ```
 
 ## Backend
+
+Se placer à la racine du projet, puis : 
+
 ```bash
 node js/server.js
 ```
