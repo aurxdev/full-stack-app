@@ -42,8 +42,13 @@ INSERT INTO users (nom, mdp, isSupport) VALUES ('admin', 'admin', true);
 INSERT INTO users (nom, mdp, isSupport) VALUES ('user', 'user', false);
 ```
 
-## 
+## Backend
 ```bash
 node js/server.js
+```
+
+## Frontend
+
+```bash
 ng serve
 ```
