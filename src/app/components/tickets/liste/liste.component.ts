@@ -5,7 +5,7 @@ import { TicketService } from '../../../services/ticket.service';
 import { AuthService } from '../../../services/auth.service';
 import { RouterModule } from '@angular/router';
 import { EtatPipe } from '../../../pipes/etat.pipe';
-import { ModalComponent } from '../modal/modal.component';
+import { ModalComponent } from '../../shared/modal/modal.component';
 import { TicketEtat } from '../../../models/ticket';
 import { TruncatePipe } from '../../../pipes/truncate.pipe';
 import { Socket } from 'ngx-socket-io';

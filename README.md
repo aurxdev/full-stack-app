@@ -41,3 +41,9 @@ INSERT INTO users (nom, mdp, isSupport) VALUES ('admin', 'admin', true);
 -- création d'un utilisateur
 INSERT INTO users (nom, mdp, isSupport) VALUES ('user', 'user', false);
 ```
+
+## 
+```bash
+node js/server.js
+ng serve
+```

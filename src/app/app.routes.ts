@@ -1,14 +1,16 @@
 import { Routes } from '@angular/router';
-import { ListeComponent } from './components/shared/liste/liste.component';
-import { LoginComponent } from './components/form/login/login.component';
-import { RegistrationComponent } from './components/form/registration/registration.component';
+
+import { ListeTicketComponent } from './components/tickets/liste-ticket/liste-ticket.component';
+
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegistrationComponent } from './components/auth/registration/registration.component';
 
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/not-auth.guard';
 
 import { ProfileComponent } from './components/shared/profile/profile.component';
-import { FormTicketComponent } from './components/form/form-ticket/form-ticket.component';
-import { DetailTicketComponent } from './components/shared/detail-ticket/detail-ticket.component';
+import { FormTicketComponent } from './components/tickets/form-ticket/form-ticket.component';
+import { DetailTicketComponent } from './components/tickets/detail-ticket/detail-ticket.component';
 import { TicketGuard } from './guards/ticket.guard';
 import { tick } from '@angular/core/testing';
 import { DashboardComponent } from './components/support/dashboard/dashboard.component';
@@ -17,7 +19,7 @@ import { SupportGuard } from './guards/support.guard';
 export const routes: Routes = [
     {
         path:'',
-        component: ListeComponent,
+        component: ListeTicketComponent,
         title: 'Liste',
     },
     {

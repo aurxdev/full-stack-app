@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('./db/db');
 
-// todo: garder la clé secrète dans un fichier .env
+
 const secretKey = 'de7e7404e597e75e87bd5cfe082b23d71ce6b9df473a9b4e287c0560620c6cb3';
 
 // fonction pour générer un token JWT

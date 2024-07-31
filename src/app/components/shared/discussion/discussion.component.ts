@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnChanges, SimpleChanges, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { MessageComponent } from '../message/message.component';
+import { MessageComponent } from '../../messages/message/message.component';
 import { DatePipe } from '@angular/common';
 import { Message } from '../../../models/message';
 import { MessageService } from '../../../services/message.service';
