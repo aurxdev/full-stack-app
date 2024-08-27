@@ -22,7 +22,6 @@ CREATE TABLE tickets (
     description TEXT NOT NULL,
     date TIMESTAMP NOT NULL,
     etat VARCHAR(50) NOT NULL,
-    statut VARCHAR(50) NOT NULL,
     idUser INTEGER NOT NULL REFERENCES public.users(id),
     idSupport INTEGER NOT NULL
 );
