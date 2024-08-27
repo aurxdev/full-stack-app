@@ -11,7 +11,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(100),
     mdp VARCHAR(100),
-	isSupport boolean
+    isSupport boolean
 );
 ```
 
