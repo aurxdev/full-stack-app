@@ -13,8 +13,9 @@ CREATE TABLE users (
     mdp VARCHAR(100),
 	isSupport boolean
 );
+```
 
-
+```sql
 CREATE TABLE tickets (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
@@ -25,7 +26,9 @@ CREATE TABLE tickets (
     idUser INTEGER NOT NULL REFERENCES public.users(id),
     idSupport INTEGER NOT NULL
 );
+```
 
+```sql
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     idTicket INTEGER NOT NULL REFERENCES public.tickets(id) ON DELETE SET NULL,
