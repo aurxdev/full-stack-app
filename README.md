@@ -34,13 +34,27 @@ CREATE TABLE messages (
     date TIMESTAMP NOT NULL,
     idUser INTEGER NOT NULL REFERENCES public.users(id)
 );
+```
 
+## Configuration des comptes de base
+
+```sql
 -- création d'un admin
 INSERT INTO users (nom, mdp, isSupport) VALUES ('admin', '$2b$10$C.sa2/d67q7BOJ9X4Q1SPu4u/qM3VinKz43RQkFf00r1/fcPHGUQy', true);
 
 -- création d'un utilisateur
 INSERT INTO users (nom, mdp, isSupport) VALUES ('user', '$2b$10$N10KleNusayMwN/K0W/yw.PgmCMtky8MGc1K7Hia8uLY3900mk9ty', false);
 ```
+
+## Connexion
+
+#### Compte administrateur
+- **Nom d'utilisateur** : `admin`
+- **Mot de passe** : `admin`
+
+#### Compte utilisateur
+- **Nom d'utilisateur** : `user`
+- **Mot de passe** : `user`
 
 ## Dépendances
 
@@ -63,13 +77,3 @@ node js/server.js
 ```bash
 ng serve
 ```
-
-## Connexion
-
-#### Compte administrateur
-- **Nom d'utilisateur** : `admin`
-- **Mot de passe** : `admin`
-
-#### Compte utilisateur
-- **Nom d'utilisateur** : `user`
-- **Mot de passe** : `user`
