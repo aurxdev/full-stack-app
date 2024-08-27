@@ -55,3 +55,13 @@ node js/server.js
 ```bash
 ng serve
 ```
+
+## Connexion
+
+#### Compte Administrateur
+- **Nom d'utilisateur** : `admin`
+- **Mot de passe** : `admin`
+
+#### Compte Utilisateur
+- **Nom d'utilisateur** : `user`
+- **Mot de passe** : `user`
