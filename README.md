@@ -42,6 +42,14 @@ INSERT INTO users (nom, mdp, isSupport) VALUES ('admin', 'admin', true);
 INSERT INTO users (nom, mdp, isSupport) VALUES ('user', 'user', false);
 ```
 
+## Dépendances
+
+Pour installer toutes les dépendances:
+
+```bash
+npm install
+```
+
 ## Backend
 
 Se placer à la racine du projet, puis : 
