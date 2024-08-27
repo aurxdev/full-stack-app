@@ -36,10 +36,10 @@ CREATE TABLE messages (
 );
 
 -- création d'un admin
-INSERT INTO users (nom, mdp, isSupport) VALUES ('admin', 'admin', true);
+INSERT INTO users (nom, mdp, isSupport) VALUES ('admin', '$2b$10$C.sa2/d67q7BOJ9X4Q1SPu4u/qM3VinKz43RQkFf00r1/fcPHGUQy', true);
 
 -- création d'un utilisateur
-INSERT INTO users (nom, mdp, isSupport) VALUES ('user', 'user', false);
+INSERT INTO users (nom, mdp, isSupport) VALUES ('user', '$2b$10$N10KleNusayMwN/K0W/yw.PgmCMtky8MGc1K7Hia8uLY3900mk9ty', false);
 ```
 
 ## Dépendances
@@ -66,10 +66,10 @@ ng serve
 
 ## Connexion
 
-#### Compte Administrateur
+#### Compte administrateur
 - **Nom d'utilisateur** : `admin`
 - **Mot de passe** : `admin`
 
-#### Compte Utilisateur
+#### Compte utilisateur
 - **Nom d'utilisateur** : `user`
 - **Mot de passe** : `user`
