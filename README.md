@@ -1,6 +1,6 @@
 # TicketFlow
 
-![TicketFlow Logo](https://github.com/aurxdev/full-stack-app/tree/main/public/logo.webp)
+![TicketFlow Logo](https://github.com/aurxdev/full-stack-app/tree/main/public/logo.png)
 
 ## Création des tables
 
