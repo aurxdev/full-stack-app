@@ -1,6 +1,6 @@
-# FullStackApp
+# TicketFlow
 
-Ce projet a été généré avec [Angular CLI](https://github.com/angular/angular-cli) version 18.0.6.
+![TicketFlow Logo](https://github.com/aurxdev/full-stack-app/tree/main/public/logo.webp)
 
 ## Création des tables
 
